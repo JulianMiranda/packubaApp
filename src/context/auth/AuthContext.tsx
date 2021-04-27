@@ -3,7 +3,7 @@ import firebase from 'firebase';
 
 import {getHeaders} from '../../api/getHeaders';
 
-import vidaApi from '../../api/vidaApi';
+import api from '../../api/api';
 import {User, LoginData, RegisterData} from '../../interfaces/User.interface';
 
 import {authReducer, AuthState} from './authReducer';
@@ -43,7 +43,7 @@ export const AuthProvider = ({children}: any) => {
 
 		// Hay token
 		try {
-			const resp = await vidaApi.get<User>('/login');
+			const resp = await api.get<User>('/login');
 			if (resp.status !== 200) {
 				return dispatch({type: 'notAuthenticated'});
 			}

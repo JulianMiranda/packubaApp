@@ -1,7 +1,7 @@
 {
 	"expo": {
-		"name": "packubaApp",
-		"slug": "packubaApp",
+		"name": "cotopaxi",
+		"slug": "cotopaxi",
 		"version": "1.0.0",
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",

@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {SettingsStack} from './SettingsStack';
 import {HomeStack} from './HomeStack';
 import {ThemeContext} from '../context/theme/ThemeContext';
+import {Platform} from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,7 +22,17 @@ export const TabsNavigation = () => {
 				}, */
 				keyboardHidesTabBar: true,
 				inactiveTintColor: 'gray',
-				activeTintColor: colors.primary
+				activeTintColor: colors.primary,
+				labelStyle: {
+					marginBottom: Platform.OS === 'ios' ? 5 : 10
+				},
+				style: {
+					position: 'absolute',
+					backgroundColor: 'rgba(255,255,255, 0.92)',
+					borderWidth: 0,
+					elevation: 0,
+					height: Platform.OS === 'ios' ? 50 : 60
+				}
 			}}
 			screenOptions={({route}) => ({
 				tabBarIcon: ({color}) => screenOptions(route, color)

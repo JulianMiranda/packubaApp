@@ -13,11 +13,12 @@ import {
 
 import {StackScreenProps} from '@react-navigation/stack';
 import {AuthContext} from '../../context/auth/AuthContext';
-import {loginStyles} from '../../theme/loginTheme';
+import {loginStyles} from '../../styles/loginTheme';
 import {useForm} from '../../hooks/useForm';
 import {Background} from '../../components/Background';
 import {WhiteLogo} from '../../components/WhiteLogo';
 import {Loading} from '../../components/Loading';
+import {PackubaLogo} from '../../components/PackubaLogo';
 
 interface Props extends StackScreenProps<any, any> {}
 
@@ -57,7 +58,7 @@ export const LoginScreen = ({navigation}: Props) => {
 			>
 				<View style={loginStyles.formContainer}>
 					{/* Keyboard avoid view */}
-					<WhiteLogo />
+					<PackubaLogo />
 
 					<Text style={loginStyles.title}>Login</Text>
 

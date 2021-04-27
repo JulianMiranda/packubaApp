@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, View} from 'react-native';
 
-export const WhiteLogo = () => {
+export const PackubaLogo = () => {
 	return (
 		<View
 			style={{
@@ -9,10 +9,10 @@ export const WhiteLogo = () => {
 			}}
 		>
 			<Image
-				source={require('../assets/react-logo-white.png')}
+				source={require('../assets/LogoPackuba.png')}
 				style={{
-					width: 110,
-					height: 100
+					width: 200,
+					height: 110
 				}}
 			/>
 		</View>

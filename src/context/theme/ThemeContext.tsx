@@ -1,5 +1,6 @@
 import React, {
 	createContext,
+	useContext,
 	useEffect,
 	useReducer,
 	useRef,
@@ -7,6 +8,7 @@ import React, {
 } from 'react';
 import {AppState} from 'react-native';
 import {Appearance} from 'react-native-appearance';
+import {AuthContext} from '../auth/AuthContext';
 import {ThemeState, themeReducer, lightTheme, darkTheme} from './themeReducer';
 
 interface ThemeContextProps {
@@ -18,48 +20,47 @@ interface ThemeContextProps {
 export const ThemeContext = createContext({} as ThemeContextProps);
 
 export const ThemeProvider = ({children}: any) => {
-	/* const appState = useRef(AppState.currentState);
-	const [appStateVisible, setAppStateVisible] = useState(appState.current); */
-	//const colorScheme = useColorScheme();
+	const {user} = useContext(AuthContext);
+	const [themeBackend, setThemeBackend] = useState('DEFAULT');
 
-	/* useEffect(() => {
-		AppState.addEventListener('change', _handleAppStateChange);
-
-		return () => {
-			AppState.removeEventListener('change', _handleAppStateChange);
-		};
-	}, []);
-
-	const _handleAppStateChange = (nextAppState: any) => {
-		if (
-			appState.current.match(/inactive|background/) &&
-			nextAppState === 'active'
-		) {
-			console.log('App has come to the foreground!');
-			Appearance.getColorScheme() === 'light'
-				? setLightTheme()
-				: setDarkTheme();
-		}
-
-		appState.current = nextAppState;
-		setAppStateVisible(appState.current);
-		console.log('AppState', appState.current);
-	};
- */
 	const [theme, dispatch] = useReducer(
 		themeReducer,
-		Appearance.getColorScheme() === 'dark' ? darkTheme : lightTheme
+		themeBackend === 'dark' ? darkTheme : lightTheme
 	);
+
+	useEffect(() => {
+		if (user) setThemeBackend(user.theme);
+	}, [user]);
+
+	useEffect(() => {
+		switch (user?.theme) {
+			case 'DEFAULT':
+				Appearance.getColorScheme() === 'light'
+					? setLightTheme()
+					: setDarkTheme();
+				break;
+			case 'DARK':
+				setDarkTheme();
+				break;
+			case 'LIGHT':
+				setLightTheme();
+				break;
+			default:
+				break;
+		}
+	}, [user]);
 
 	useEffect(() => {
 		AppState.addEventListener('change', (status) => {
 			if (status === 'active') {
-				Appearance.getColorScheme() === 'light'
-					? setLightTheme()
-					: setDarkTheme();
+				if (user?.theme === 'DEFAULT') {
+					Appearance.getColorScheme() === 'light'
+						? setLightTheme()
+						: setDarkTheme();
+				}
 			}
 		});
-	}, []);
+	}, [user]);
 
 	// SOLO EN IOS por ahora
 	// useEffect(() => {

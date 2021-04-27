@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import {AuthContext} from '../../context/auth/AuthContext';
-import {loginStyles} from '../../theme/loginTheme';
+import {loginStyles} from '../../styles/loginTheme';
 
 import {WhiteLogo} from '../../components/WhiteLogo';
 import {useForm} from '../../hooks/useForm';

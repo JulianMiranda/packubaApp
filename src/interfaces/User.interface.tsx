@@ -14,6 +14,7 @@ export interface User {
 	name: string;
 	email: string;
 	id: string;
+	theme: string;
 	image: Image;
 }
 export interface Image {
