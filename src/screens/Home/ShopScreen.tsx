@@ -1,16 +1,31 @@
 import {StackScreenProps} from '@react-navigation/stack';
-import React from 'react';
-import {StyleSheet, View, Text, ScrollView} from 'react-native';
+import React, {useContext} from 'react';
+import {
+	StyleSheet,
+	View,
+	Text,
+	ScrollView,
+	TouchableOpacity
+} from 'react-native';
 import {BackButton} from '../../components/BackButton';
 import {RootStackParams} from '../../navigation/HomeStack';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {ShopContext} from '../../context/shop/ShopContext';
+import {Subcategory} from '../../interfaces/Subcategory.interface';
 
 interface Props extends StackScreenProps<RootStackParams, 'ShopScreen'> {}
+
+interface FunctionProps {
+	item: Subcategory;
+	unsetItem: (item: any) => void;
+}
 
 export const ShopScreen = (props: Props) => {
 	const {navigation, route} = props;
 	const {color} = route.params;
 	const {top} = useSafeAreaInsets();
+
+	const {car, unsetItem, emptyCar} = useContext(ShopContext);
 	return (
 		<>
 			{/* Backbutton */}
@@ -34,9 +49,55 @@ export const ShopScreen = (props: Props) => {
 				</View>
 
 				{/* Detalles y Loading */}
-				<Text style={{marginTop: 30, marginLeft: 10}}>Cosas</Text>
+				<Text
+					style={{
+						marginTop: 30,
+						marginLeft: 10,
+						fontSize: 26,
+						fontWeight: '600'
+					}}
+				>
+					Mis Cosas
+				</Text>
+				{car.map((item, index) => (
+					<Item key={index.toString()} item={item} unsetItem={unsetItem} />
+				))}
 			</ScrollView>
+			<View
+				style={{
+					position: 'absolute',
+					bottom: 85,
+					alignContent: 'space-between',
+					flexDirection: 'row',
+					alignItems: 'center'
+				}}
+			>
+				<TouchableOpacity onPress={() => emptyCar()}>
+					<Text style={{color: 'red'}}>Vaciar Carrito</Text>
+				</TouchableOpacity>
+				<TouchableOpacity onPress={() => console.log('Compra')}>
+					<Text style={{}}>Realizar Compra</Text>
+				</TouchableOpacity>
+			</View>
 		</>
+	);
+};
+
+const Item = ({item, unsetItem}: FunctionProps) => {
+	return (
+		<View style={styles.itemContainer}>
+			<View style={{flex: 3}}>
+				<Text style={{...styles.name, marginLeft: 25}}>{item.name}</Text>
+			</View>
+			<View style={{flex: 4}}>
+				<Text style={styles.name}>1</Text>
+			</View>
+			<View style={{flex: 1}}>
+				<TouchableOpacity onPress={() => unsetItem(item)}>
+					<Text style={{color: 'red'}}>Quitar</Text>
+				</TouchableOpacity>
+			</View>
+		</View>
 	);
 };
 
@@ -76,5 +137,20 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center'
+	},
+	itemContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		marginBottom: 3
+	},
+	name: {
+		fontSize: 16,
+		fontWeight: '300',
+		marginVertical: 3
+	},
+	image: {
+		height: 40,
+		width: 40,
+		borderRadius: 100
 	}
 });

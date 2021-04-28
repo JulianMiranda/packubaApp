@@ -1,9 +1,10 @@
 import React, {createContext, useEffect, useReducer} from 'react';
 
 import {ShopState, shopReducer} from './shopReducer';
+import {Subcategory} from '../../interfaces/Subcategory.interface';
 
 type ShopContextProps = {
-	car: string[];
+	car: Subcategory[];
 	setItem: (item: any) => void;
 	unsetItem: (item: any) => void;
 	emptyCar: () => void;
@@ -17,11 +18,11 @@ export const ShopContext = createContext({} as ShopContextProps);
 export const ShopProvider = ({children}: any) => {
 	const [state, dispatch] = useReducer(shopReducer, shopInicialState);
 
-	const setItem = (item: any) => {
+	const setItem = (item: Subcategory) => {
 		dispatch({type: 'set_item', payload: item});
 	};
 
-	const unsetItem = (item: any) => {
+	const unsetItem = (item: Subcategory) => {
 		dispatch({type: 'unset_item', payload: item});
 	};
 

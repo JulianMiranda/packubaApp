@@ -21,7 +21,6 @@ export const HomeScreen = () => {
 	const navigation = useNavigation();
 	const {top} = useSafeAreaInsets();
 	const {car} = useContext(ShopContext);
-	console.log('Carrito', car);
 
 	const {
 		theme: {colors}

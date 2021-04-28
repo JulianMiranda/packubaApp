@@ -17,6 +17,8 @@ import {FadeInImage} from '../../components/FadeInImage'; /*
 import { usePokemon } from '../hooks/usePokemon';
 import { PokemonDetails } from '../components/PokemonDetails'; */
 import {BackButton} from '../../components/BackButton';
+import {useCategory} from '../../hooks/useCategory';
+import {SubcategoriesList} from '../../components/SubcategoriesList';
 
 interface Props extends StackScreenProps<RootStackParams, 'CategoryScreen'> {}
 
@@ -29,23 +31,14 @@ export const CategoryScreen = (props: Props) => {
 		image: {url}
 	} = category;
 	const {top} = useSafeAreaInsets();
-	/* 
-    const { isLoading, pokemon } = usePokemon( id ); */
+
+	const {isLoading, subcategories} = useCategory(id);
 
 	return (
 		<>
 			{/* Backbutton */}
 			<BackButton {...props} />
-			{/* <TouchableOpacity
-				onPress={() => navigation.pop()}
-				activeOpacity={0.8}
-				style={{
-					...styles.backButton,
-					top: top + 5
-				}}
-			>
-				<Icon name="arrow-back-outline" color="white" size={35} />
-			</TouchableOpacity> */}
+
 			<ScrollView style={{flex: 1}}>
 				{/* Heade Containerr */}
 				<View
@@ -74,17 +67,14 @@ export const CategoryScreen = (props: Props) => {
 				</View>
 
 				{/* Detalles y Loading */}
-				<Text style={{marginTop: 30, marginLeft: 10}}>
-					La llegada de Julian Nagelsmann al Bayern de Múnich supone el comienzo
-					de una nueva era en el Allianz Arena. Dotando al entrenador de 33
-					años, el más joven en Múnich desde Sören Lerby en 1991, con un
-					contrato hasta 2026, el todocampeón deja claro que confía en el míster
-					de moda de Alemania a la hora de sentar las bases del Bayern del
-					futuro. Lo que más apasionante se antoja, a priori, es saber si
-					revolucionará el esquema táctico de un equipo que, sobre todo gracias
-					a la labor de Hansi Flick a lo largo de las últimas dos temporadas, ya
-					cuenta con un estilo muy marcado que lo llevó a conquistar el sextete.
-				</Text>
+
+				{isLoading ? (
+					<View style={styles.loadingIndicator}>
+						<ActivityIndicator color={color} size={50} />
+					</View>
+				) : (
+					<SubcategoriesList subcategories={subcategories} />
+				)}
 			</ScrollView>
 		</>
 	);
