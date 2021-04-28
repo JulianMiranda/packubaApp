@@ -51,7 +51,9 @@ export const ShopProvider = ({children}: any) => {
 		const newState = state.car.filter(
 			(carItem) => carItem.subcategory.id !== item.id
 		);
-		api.post('/shop/setMyShop', {user: user!.id, car: [...newState, item]});
+		console.log('Quito', [...newState, item]);
+
+		api.post('/shop/setMyShop', {user: user!.id, car: [...newState]});
 		dispatch({type: 'unset_item', payload: item});
 	};
 
