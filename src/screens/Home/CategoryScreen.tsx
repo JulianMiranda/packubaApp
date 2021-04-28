@@ -16,10 +16,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {FadeInImage} from '../../components/FadeInImage'; /* 
 import { usePokemon } from '../hooks/usePokemon';
 import { PokemonDetails } from '../components/PokemonDetails'; */
+import {BackButton} from '../../components/BackButton';
 
 interface Props extends StackScreenProps<RootStackParams, 'CategoryScreen'> {}
 
-export const CategoryScreen = ({navigation, route}: Props) => {
+export const CategoryScreen = (props: Props) => {
+	const {navigation, route} = props;
 	const {category, color} = route.params;
 	const {
 		id,
@@ -33,7 +35,8 @@ export const CategoryScreen = ({navigation, route}: Props) => {
 	return (
 		<>
 			{/* Backbutton */}
-			<TouchableOpacity
+			<BackButton {...props} />
+			{/* <TouchableOpacity
 				onPress={() => navigation.pop()}
 				activeOpacity={0.8}
 				style={{
@@ -42,7 +45,7 @@ export const CategoryScreen = ({navigation, route}: Props) => {
 				}}
 			>
 				<Icon name="arrow-back-outline" color="white" size={35} />
-			</TouchableOpacity>
+			</TouchableOpacity> */}
 			<ScrollView style={{flex: 1}}>
 				{/* Heade Containerr */}
 				<View

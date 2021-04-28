@@ -10,7 +10,8 @@ const Tab = createBottomTabNavigator();
 
 export const TabsNavigation = () => {
 	const {
-		theme: {colors}
+		theme: {colors},
+		theme
 	} = useContext(ThemeContext);
 	return (
 		<Tab.Navigator
@@ -28,7 +29,7 @@ export const TabsNavigation = () => {
 				},
 				style: {
 					position: 'absolute',
-					backgroundColor: 'rgba(255,255,255, 0.92)',
+					backgroundColor: theme.tabColor,
 					borderWidth: 0,
 					elevation: 0,
 					height: Platform.OS === 'ios' ? 50 : 60
