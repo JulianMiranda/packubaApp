@@ -1,18 +1,15 @@
-import React, {useContext} from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import React, {useContext, useState} from 'react';
+import {View, Text} from 'react-native';
 import {ShopContext} from '../context/shop/ShopContext';
 import {Subcategory} from '../interfaces/Subcategory.interface';
+import {SingleSubcategory} from './SingleSubcategory';
 
 interface Props {
 	subcategories: Subcategory[];
 }
-interface FunctionProps {
-	item: Subcategory;
-	setItem: (item: any) => void;
-}
 
 export const SubcategoriesList = ({subcategories}: Props) => {
-	const {setItem} = useContext(ShopContext);
+	const {car, setItem} = useContext(ShopContext);
 	return (
 		<View
 			style={{
@@ -24,55 +21,25 @@ export const SubcategoriesList = ({subcategories}: Props) => {
 		>
 			<View style={{flexDirection: 'row', marginBottom: 5}}>
 				<View style={{flex: 3}}>
-					<Text>Elemento</Text>
-				</View>
-				<View style={{flex: 2}}>
-					<Text>Cantidad</Text>
+					<Text style={{textAlign: 'left'}}>Elemento</Text>
 				</View>
 				<View style={{flex: 1}}>
-					<Text>Añadir</Text>
+					<Text style={{textAlign: 'center'}}>Cantidad</Text>
+				</View>
+				<View style={{flex: 2}}>
+					<Text style={{textAlign: 'center'}}>Añadir al carrito</Text>
 				</View>
 			</View>
 
 			{subcategories.map((item, index) => (
-				<Item key={index.toString()} item={item} setItem={setItem} />
+				<SingleSubcategory
+					key={index.toString()}
+					item={item}
+					setItem={setItem}
+					car={car}
+				/>
 			))}
 		</View>
 	);
 };
-const Item = ({item, setItem}: FunctionProps) => {
-	return (
-		<View style={styles.itemContainer}>
-			<Image source={{uri: item.image.url}} style={styles.image} />
-			<View style={{flex: 3}}>
-				<Text style={styles.name}>{item.name}</Text>
-			</View>
-			<View style={{flex: 2}}>
-				<Text style={styles.name}>1</Text>
-			</View>
-			<View style={{flex: 1}}>
-				<TouchableOpacity onPress={() => setItem(item)}>
-					<Text style={{}}>Añadir</Text>
-				</TouchableOpacity>
-			</View>
-		</View>
-	);
-};
-
-const styles = StyleSheet.create({
-	itemContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		marginBottom: 3
-	},
-	name: {
-		fontSize: 20,
-		fontWeight: '400',
-		marginVertical: 3
-	},
-	image: {
-		height: 40,
-		width: 40,
-		borderRadius: 100
-	}
-});
+const Item = () => {};

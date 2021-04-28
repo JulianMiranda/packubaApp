@@ -5,7 +5,9 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	ScrollView,
-	ActivityIndicator
+	ActivityIndicator,
+	KeyboardAvoidingView,
+	Platform
 } from 'react-native';
 
 import {StackScreenProps} from '@react-navigation/stack';
@@ -38,44 +40,48 @@ export const CategoryScreen = (props: Props) => {
 		<>
 			{/* Backbutton */}
 			<BackButton {...props} />
-
-			<ScrollView style={{flex: 1}}>
-				{/* Heade Containerr */}
-				<View
-					style={{
-						...styles.headerContainer,
-						backgroundColor: color
-					}}
-				>
-					{/* Nombre del Pokemon */}
-					<Text
+			<KeyboardAvoidingView
+				behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+				style={{flex: 1}}
+			>
+				<ScrollView style={{flex: 1}}>
+					{/* Heade Containerr */}
+					<View
 						style={{
-							...styles.pokemonName,
-							top: top + 50
+							...styles.headerContainer,
+							backgroundColor: color
 						}}
 					>
-						{name + '\n'}
-					</Text>
+						{/* Nombre del Pokemon */}
+						<Text
+							style={{
+								...styles.pokemonName,
+								top: top + 50
+							}}
+						>
+							{name + '\n'}
+						</Text>
 
-					{/* Pokebola blanca */}
-					{/*  <Image
+						{/* Pokebola blanca */}
+						{/*  <Image
                     source={ require('../assets/pokebola-blanca.png') }
                     style={ styles.pokeball }
                 /> */}
 
-					<FadeInImage uri={url} style={styles.pokemonImage} />
-				</View>
-
-				{/* Detalles y Loading */}
-
-				{isLoading ? (
-					<View style={styles.loadingIndicator}>
-						<ActivityIndicator color={color} size={50} />
+						<FadeInImage uri={url} style={styles.pokemonImage} />
 					</View>
-				) : (
-					<SubcategoriesList subcategories={subcategories} />
-				)}
-			</ScrollView>
+
+					{/* Detalles y Loading */}
+
+					{isLoading ? (
+						<View style={styles.loadingIndicator}>
+							<ActivityIndicator color={color} size={50} />
+						</View>
+					) : (
+						<SubcategoriesList subcategories={subcategories} />
+					)}
+				</ScrollView>
+			</KeyboardAvoidingView>
 		</>
 	);
 };

@@ -1,12 +1,15 @@
-import React, {createContext, useEffect, useReducer} from 'react';
+import React, {createContext, useContext, useEffect, useReducer} from 'react';
 
 import {ShopState, shopReducer} from './shopReducer';
 import {Subcategory} from '../../interfaces/Subcategory.interface';
+import {CarItemProps, MyShopResponse} from '../../interfaces/Shop.Interface';
+import api from '../../api/api';
+import {AuthContext} from '../auth/AuthContext';
 
 type ShopContextProps = {
-	car: Subcategory[];
-	setItem: (item: any) => void;
-	unsetItem: (item: any) => void;
+	car: CarItemProps[];
+	setItem: (item: CarItemProps) => void;
+	unsetItem: (item: Subcategory) => void;
 	emptyCar: () => void;
 };
 const shopInicialState: ShopState = {
@@ -16,17 +19,44 @@ const shopInicialState: ShopState = {
 export const ShopContext = createContext({} as ShopContextProps);
 
 export const ShopProvider = ({children}: any) => {
+	const {status, user} = useContext(AuthContext);
 	const [state, dispatch] = useReducer(shopReducer, shopInicialState);
 
-	const setItem = (item: Subcategory) => {
-		dispatch({type: 'set_item', payload: item});
+	useEffect(() => {
+		if (status === 'authenticated') checkCar();
+	}, [status]);
+	const checkCar = async () => {
+		const resp = await api.get<Array<MyShopResponse>>('/shop/getMyShop');
+		if (resp.data[0].car.length > 0) {
+			resp.data[0].car.map((item) => setItem(item));
+		}
+	};
+	const setItem = (item: CarItemProps) => {
+		const subcategoriesCar = state.car.map((item) => item.subcategory.id);
+		if (subcategoriesCar.includes(item.subcategory.id)) {
+			console.log('actualizar Producto');
+			const newState = state.car.filter(
+				(carItem) => carItem.subcategory.id !== item.subcategory.id
+			);
+			api.post('/shop/setMyShop', {user: user!.id, car: [...newState, item]});
+			dispatch({type: 'update_item', payload: item});
+		} else {
+			console.log('producto Nuevo');
+			api.post('/shop/setMyShop', {user: user!.id, car: [...state.car, item]});
+			dispatch({type: 'set_item', payload: item});
+		}
 	};
 
 	const unsetItem = (item: Subcategory) => {
+		const newState = state.car.filter(
+			(carItem) => carItem.subcategory.id !== item.id
+		);
+		api.post('/shop/setMyShop', {user: user!.id, car: [...newState, item]});
 		dispatch({type: 'unset_item', payload: item});
 	};
 
 	const emptyCar = () => {
+		api.post('/shop/setMyShop', {user: user!.id, car: []});
 		dispatch({type: 'empty_car'});
 	};
 

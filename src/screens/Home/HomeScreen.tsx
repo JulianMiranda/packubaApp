@@ -16,8 +16,12 @@ import {ThemeContext} from '../../context/theme/ThemeContext';
 import {useCategoryPaginated} from '../../hooks/useCategoryPaginated';
 import {homeStyles} from '../../styles/homeTheme';
 import {useNavigation} from '@react-navigation/core';
+import {ShopIcon} from '../../components/ShopIcon';
+import {StackScreenProps} from '@react-navigation/stack';
 
-export const HomeScreen = () => {
+interface Props extends StackScreenProps<any, any> {}
+
+export const HomeScreen = (props: Props) => {
 	const navigation = useNavigation();
 	const {top} = useSafeAreaInsets();
 	const {car} = useContext(ShopContext);
@@ -33,17 +37,7 @@ export const HomeScreen = () => {
 				source={require('../../assets/PackubaLogoWhite.png')}
 				style={homeStyles.imageBG}
 			/>
-			<TouchableOpacity
-				activeOpacity={0.8}
-				onPress={() =>
-					navigation.navigate('ShopScreen', {
-						color: '#F15911'
-					})
-				}
-				style={{position: 'absolute', right: 25, top: 45, zIndex: 9999999999}}
-			>
-				<Icon color="#0f0d0d" name="cart-outline" size={40} />
-			</TouchableOpacity>
+			<ShopIcon {...props} />
 
 			<View style={{alignItems: 'center'}}>
 				<FlatList

@@ -1,11 +1,13 @@
+import {CarItemProps} from '../../interfaces/Shop.Interface';
 import {Subcategory} from '../../interfaces/Subcategory.interface';
 
 export interface ShopState {
-	car: Subcategory[];
+	car: CarItemProps[];
 }
 type ShopAction =
-	| {type: 'set_item'; payload: any}
-	| {type: 'unset_item'; payload: any}
+	| {type: 'set_item'; payload: CarItemProps}
+	| {type: 'unset_item'; payload: Subcategory}
+	| {type: 'update_item'; payload: CarItemProps}
 	| {type: 'empty_car'};
 
 export const shopReducer = (
@@ -22,7 +24,27 @@ export const shopReducer = (
 		case 'unset_item':
 			return {
 				...state,
-				car: [...state.car.filter((item) => item.id !== action.payload.id)]
+				car: [
+					...state.car.filter(
+						(item) => item.subcategory.id !== action.payload.id
+					)
+				]
+			};
+		case 'update_item':
+			return {
+				...state,
+				car: [
+					...state.car.map((item) => {
+						if (item.subcategory.id === action.payload.subcategory.id) {
+							return {
+								cantidad: (item.cantidad = action.payload.cantidad),
+								subcategory: action.payload.subcategory
+							};
+						} else {
+							return item;
+						}
+					})
+				]
 			};
 		case 'empty_car':
 			return {

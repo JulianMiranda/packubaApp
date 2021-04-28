@@ -12,11 +12,12 @@ import {RootStackParams} from '../../navigation/HomeStack';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ShopContext} from '../../context/shop/ShopContext';
 import {Subcategory} from '../../interfaces/Subcategory.interface';
+import {CarItemProps} from '../../interfaces/Shop.Interface';
 
 interface Props extends StackScreenProps<RootStackParams, 'ShopScreen'> {}
 
 interface FunctionProps {
-	item: Subcategory;
+	item: CarItemProps;
 	unsetItem: (item: any) => void;
 }
 
@@ -40,7 +41,7 @@ export const ShopScreen = (props: Props) => {
 				>
 					<Text
 						style={{
-							...styles.pokemonName,
+							...styles.titleList,
 							top: top + 50
 						}}
 					>
@@ -57,7 +58,7 @@ export const ShopScreen = (props: Props) => {
 						fontWeight: '600'
 					}}
 				>
-					Mis Cosas
+					Cosas carrito
 				</Text>
 				{car.map((item, index) => (
 					<Item key={index.toString()} item={item} unsetItem={unsetItem} />
@@ -66,17 +67,37 @@ export const ShopScreen = (props: Props) => {
 			<View
 				style={{
 					position: 'absolute',
-					bottom: 85,
+					bottom: 75,
+					zIndex: 99999,
+					left: 50,
 					alignContent: 'space-between',
 					flexDirection: 'row',
-					alignItems: 'center'
+					alignItems: 'center',
+					backgroundColor: '#D5D5D5',
+					padding: 10,
+					borderRadius: 60
 				}}
 			>
 				<TouchableOpacity onPress={() => emptyCar()}>
 					<Text style={{color: 'red'}}>Vaciar Carrito</Text>
 				</TouchableOpacity>
+			</View>
+			<View
+				style={{
+					position: 'absolute',
+					zIndex: 99999,
+					bottom: 75,
+					right: 50,
+					alignContent: 'space-between',
+					flexDirection: 'row',
+					alignItems: 'center',
+					backgroundColor: '#FB8046',
+					padding: 10,
+					borderRadius: 60
+				}}
+			>
 				<TouchableOpacity onPress={() => console.log('Compra')}>
-					<Text style={{}}>Realizar Compra</Text>
+					<Text style={{color: 'white'}}>Realizar Compra</Text>
 				</TouchableOpacity>
 			</View>
 		</>
@@ -87,13 +108,15 @@ const Item = ({item, unsetItem}: FunctionProps) => {
 	return (
 		<View style={styles.itemContainer}>
 			<View style={{flex: 3}}>
-				<Text style={{...styles.name, marginLeft: 25}}>{item.name}</Text>
+				<Text style={{...styles.name, marginLeft: 25}}>
+					{item.subcategory.name}
+				</Text>
 			</View>
 			<View style={{flex: 4}}>
-				<Text style={styles.name}>1</Text>
+				<Text style={styles.name}>{item.cantidad}</Text>
 			</View>
 			<View style={{flex: 1}}>
-				<TouchableOpacity onPress={() => unsetItem(item)}>
+				<TouchableOpacity onPress={() => unsetItem(item.subcategory)}>
 					<Text style={{color: 'red'}}>Quitar</Text>
 				</TouchableOpacity>
 			</View>
@@ -114,7 +137,7 @@ const styles = StyleSheet.create({
 		zIndex: 999999999,
 		left: 20
 	},
-	pokemonName: {
+	titleList: {
 		color: 'white',
 		fontSize: 40,
 		alignSelf: 'flex-start',
