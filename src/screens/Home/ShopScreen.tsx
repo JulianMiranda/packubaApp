@@ -1,5 +1,5 @@
 import {StackScreenProps} from '@react-navigation/stack';
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
 	StyleSheet,
 	View,
@@ -11,8 +11,8 @@ import {BackButton} from '../../components/BackButton';
 import {RootStackParams} from '../../navigation/HomeStack';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ShopContext} from '../../context/shop/ShopContext';
-import {Subcategory} from '../../interfaces/Subcategory.interface';
 import {CarItemProps} from '../../interfaces/Shop.Interface';
+import {registerForPushNotifications} from '../../utils/notificationPermissions';
 
 interface Props extends StackScreenProps<RootStackParams, 'ShopScreen'> {}
 
@@ -26,7 +26,18 @@ export const ShopScreen = (props: Props) => {
 	const {color} = route.params;
 	const {top} = useSafeAreaInsets();
 
-	const {car, unsetItem, emptyCar} = useContext(ShopContext);
+	const {car, unsetItem, emptyCar, makeShop} = useContext(ShopContext);
+	const [total, setTotal] = useState(0);
+
+	useEffect(() => {
+		let total = 0;
+		car.forEach(function (item) {
+			const valor = item.cantidad * item.subcategory.price;
+			total += valor;
+		});
+		setTotal(total);
+	}, [car]);
+
 	return (
 		<>
 			{/* Backbutton */}
@@ -63,6 +74,16 @@ export const ShopScreen = (props: Props) => {
 				{car.map((item, index) => (
 					<Item key={index.toString()} item={item} unsetItem={unsetItem} />
 				))}
+				<Text
+					style={{
+						marginTop: 30,
+						marginLeft: 10,
+						fontSize: 26,
+						fontWeight: '600'
+					}}
+				>
+					Total: {total}$
+				</Text>
 			</ScrollView>
 			<View
 				style={{
@@ -96,7 +117,7 @@ export const ShopScreen = (props: Props) => {
 					borderRadius: 60
 				}}
 			>
-				<TouchableOpacity onPress={() => console.log('Compra')}>
+				<TouchableOpacity onPress={() => makeShop(total)}>
 					<Text style={{color: 'white'}}>Realizar Compra</Text>
 				</TouchableOpacity>
 			</View>
@@ -107,15 +128,19 @@ export const ShopScreen = (props: Props) => {
 const Item = ({item, unsetItem}: FunctionProps) => {
 	return (
 		<View style={styles.itemContainer}>
-			<View style={{flex: 3}}>
-				<Text style={{...styles.name, marginLeft: 25}}>
-					{item.subcategory.name}
-				</Text>
-			</View>
-			<View style={{flex: 4}}>
+			<View style={{flex: 2}}>
 				<Text style={styles.name}>{item.cantidad}</Text>
 			</View>
-			<View style={{flex: 1}}>
+			<View style={{flex: 3}}>
+				<Text style={{...styles.name}}>{item.subcategory.name}</Text>
+			</View>
+
+			<View style={{flex: 8}}>
+				<Text style={styles.name}>
+					{item.subcategory.price * item.cantidad} $
+				</Text>
+			</View>
+			<View style={{flex: 2}}>
 				<TouchableOpacity onPress={() => unsetItem(item.subcategory)}>
 					<Text style={{color: 'red'}}>Quitar</Text>
 				</TouchableOpacity>
@@ -164,7 +189,8 @@ const styles = StyleSheet.create({
 	itemContainer: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		marginBottom: 3
+		marginBottom: 3,
+		marginHorizontal: 10
 	},
 	name: {
 		fontSize: 16,

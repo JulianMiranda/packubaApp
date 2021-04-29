@@ -20,14 +20,17 @@ export const SubcategoriesList = ({subcategories}: Props) => {
 			}}
 		>
 			<View style={{flexDirection: 'row', marginBottom: 5}}>
-				<View style={{flex: 3}}>
+				<View style={{flex: 4}}>
 					<Text style={{textAlign: 'left'}}>Elemento</Text>
 				</View>
-				<View style={{flex: 1}}>
+				<View style={{flex: 2}}>
+					<Text style={{textAlign: 'right'}}>Precio</Text>
+				</View>
+				<View style={{flex: 2}}>
 					<Text style={{textAlign: 'center'}}>Cantidad</Text>
 				</View>
 				<View style={{flex: 2}}>
-					<Text style={{textAlign: 'center'}}>Añadir al carrito</Text>
+					<Text style={{textAlign: 'center'}}>Añadir</Text>
 				</View>
 			</View>
 
@@ -42,4 +45,3 @@ export const SubcategoriesList = ({subcategories}: Props) => {
 		</View>
 	);
 };
-const Item = () => {};

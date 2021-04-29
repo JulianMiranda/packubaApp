@@ -7,6 +7,7 @@ import {
 	TextInput,
 	TouchableOpacity
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import {CarItemProps} from '../interfaces/Shop.Interface';
 import {Subcategory} from '../interfaces/Subcategory.interface';
 
@@ -17,12 +18,14 @@ interface Props {
 }
 export const SingleSubcategory = ({car, item, setItem}: Props) => {
 	const [cantidad, setCantidad] = useState('1');
-	const [buttonName, setButtonName] = useState('Añadir');
+	const [buttonName, setButtonName] = useState('Add');
+	console.log(item.currency);
+
 	useEffect(() => {
 		car.map(({subcategory, cantidad}) => {
 			if (subcategory.id === item.id) {
 				setCantidad(cantidad.toString());
-				setButtonName('Act. Cantidad');
+				setButtonName('Edit');
 			}
 		});
 	}, [car]);
@@ -37,28 +40,42 @@ export const SingleSubcategory = ({car, item, setItem}: Props) => {
 	return (
 		<View style={styles.itemContainer}>
 			<Image source={{uri: item.image.url}} style={styles.image} />
-			<View style={{flex: 3}}>
+			<View style={{flex: 6}}>
 				<Text style={styles.name}>{item.name}</Text>
 			</View>
-
-			<View style={{flex: 1}}>
+			<View style={{flex: 2}}>
+				<Text style={styles.name}>{item.price}$</Text>
+			</View>
+			<View style={{flex: 2}}>
 				<TextInput
-					style={{color: buttonName === 'Añadir' ? '#CACACA' : 'black'}}
-					keyboardType="numeric"
+					style={{
+						color: buttonName === 'Añadir' ? '#CACACA' : 'black',
+						flex: 1,
+						paddingLeft: 5
+					}}
+					keyboardType="number-pad"
 					value={cantidad}
 					onChangeText={(value) => setCantidad(value)}
 				/>
 			</View>
-			<View style={{flex: 2}}>
+			<View style={{flex: 3}}>
 				<TouchableOpacity onPress={setCarItem}>
-					<Text
+					<Icon
+						style={{
+							textAlign: 'center',
+							color: buttonName === 'Add' ? '#22ad29' : '#E7E35E'
+						}}
+						name={buttonName === 'Add' ? 'plus' : 'pencil-alt'}
+						size={18}
+					/>
+					{/* <Text
 						style={{
 							textAlign: 'center',
 							color: buttonName === 'Añadir' ? '#22ad29' : '#E7E35E'
 						}}
 					>
 						{buttonName}
-					</Text>
+					</Text> */}
 				</TouchableOpacity>
 			</View>
 		</View>

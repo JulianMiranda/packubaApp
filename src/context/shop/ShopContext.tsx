@@ -11,6 +11,7 @@ type ShopContextProps = {
 	setItem: (item: CarItemProps) => void;
 	unsetItem: (item: Subcategory) => void;
 	emptyCar: () => void;
+	makeShop: (total: number) => void;
 };
 const shopInicialState: ShopState = {
 	car: []
@@ -62,13 +63,23 @@ export const ShopProvider = ({children}: any) => {
 		dispatch({type: 'empty_car'});
 	};
 
+	const makeShop = async (total: number) => {
+		const a = await api.post('/order/setOrder', {
+			user: user!.id,
+			cost: total,
+			car: state.car
+		});
+		if (a.status === 201) dispatch({type: 'empty_car'});
+	};
+
 	return (
 		<ShopContext.Provider
 			value={{
 				...state,
 				setItem,
 				unsetItem,
-				emptyCar
+				emptyCar,
+				makeShop
 			}}
 		>
 			{children}

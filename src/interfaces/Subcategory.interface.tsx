@@ -15,6 +15,8 @@ export interface Subcategory {
 	updatedAt: string;
 	image: Image;
 	id: string;
+	price: number;
+	currency: string;
 }
 
 export interface Category {
