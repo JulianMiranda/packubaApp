@@ -35,10 +35,13 @@ export const ThemeProvider = ({children}: any) => {
 	useEffect(() => {
 		switch (user?.theme) {
 			case 'DEFAULT':
+				setLightTheme();
+				break;
+			/* case 'DEFAULT':
 				Appearance.getColorScheme() === 'light'
 					? setLightTheme()
 					: setDarkTheme();
-				break;
+				break; */
 			case 'DARK':
 				setDarkTheme();
 				break;
@@ -50,7 +53,7 @@ export const ThemeProvider = ({children}: any) => {
 		}
 	}, [user]);
 
-	useEffect(() => {
+	/* useEffect(() => {
 		AppState.addEventListener('change', (status) => {
 			if (status === 'active') {
 				if (user?.theme === 'DEFAULT') {
@@ -60,7 +63,7 @@ export const ThemeProvider = ({children}: any) => {
 				}
 			}
 		});
-	}, [user]);
+	}, [user]); */
 
 	// SOLO EN IOS por ahora
 	// useEffect(() => {

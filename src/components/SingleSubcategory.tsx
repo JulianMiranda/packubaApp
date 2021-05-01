@@ -19,7 +19,6 @@ interface Props {
 export const SingleSubcategory = ({car, item, setItem}: Props) => {
 	const [cantidad, setCantidad] = useState('1');
 	const [buttonName, setButtonName] = useState('Add');
-	console.log(item.currency);
 
 	useEffect(() => {
 		car.map(({subcategory, cantidad}) => {
@@ -59,7 +58,10 @@ export const SingleSubcategory = ({car, item, setItem}: Props) => {
 				/>
 			</View>
 			<View style={{flex: 3}}>
-				<TouchableOpacity onPress={setCarItem}>
+				<TouchableOpacity
+					style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}
+					onPress={setCarItem}
+				>
 					<Icon
 						style={{
 							textAlign: 'center',

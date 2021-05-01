@@ -64,7 +64,7 @@ export const ShopProvider = ({children}: any) => {
 	};
 
 	const makeShop = async (total: number) => {
-		const a = await api.post('/order/setOrder', {
+		const a = await api.post('/orders/setOrder', {
 			user: user!.id,
 			cost: total,
 			car: state.car

@@ -5,7 +5,8 @@ import {
 	View,
 	Text,
 	ScrollView,
-	TouchableOpacity
+	TouchableOpacity,
+	Platform
 } from 'react-native';
 import {BackButton} from '../../components/BackButton';
 import {RootStackParams} from '../../navigation/HomeStack';
@@ -37,6 +38,10 @@ export const ShopScreen = (props: Props) => {
 		});
 		setTotal(total);
 	}, [car]);
+
+	const makeShopFunction = () => {
+		makeShop(total);
+	};
 
 	return (
 		<>
@@ -74,6 +79,18 @@ export const ShopScreen = (props: Props) => {
 				{car.map((item, index) => (
 					<Item key={index.toString()} item={item} unsetItem={unsetItem} />
 				))}
+				{car.length < 1 && (
+					<Text
+						style={{
+							marginTop: 30,
+							marginLeft: 10,
+							fontSize: 22,
+							fontWeight: '400'
+						}}
+					>
+						Carrito vacío 😦
+					</Text>
+				)}
 				<Text
 					style={{
 						marginTop: 30,
@@ -117,7 +134,10 @@ export const ShopScreen = (props: Props) => {
 					borderRadius: 60
 				}}
 			>
-				<TouchableOpacity onPress={() => makeShop(total)}>
+				<TouchableOpacity
+					activeOpacity={car.length < 1 ? 1 : 0.8}
+					onPress={car.length < 1 ? () => {} : makeShopFunction}
+				>
 					<Text style={{color: 'white'}}>Realizar Compra</Text>
 				</TouchableOpacity>
 			</View>
@@ -131,7 +151,7 @@ const Item = ({item, unsetItem}: FunctionProps) => {
 			<View style={{flex: 2}}>
 				<Text style={styles.name}>{item.cantidad}</Text>
 			</View>
-			<View style={{flex: 3}}>
+			<View style={{flex: 6}}>
 				<Text style={{...styles.name}}>{item.subcategory.name}</Text>
 			</View>
 
@@ -154,7 +174,7 @@ const styles = StyleSheet.create({
 		height: 170,
 		zIndex: 999,
 		alignItems: 'center',
-		borderBottomRightRadius: 1000,
+		borderBottomRightRadius: Platform.OS === 'ios' ? 1000 : 100,
 		borderBottomLeftRadius: 0
 	},
 	backButton: {

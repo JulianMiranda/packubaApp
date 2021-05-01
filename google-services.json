@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "317216199245",
+    "project_id": "packuba",
+    "storage_bucket": "packuba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317216199245:android:3801926ec852b32ed68204",
+        "android_client_info": {
+          "package_name": "com.packuba.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "317216199245-ma9j403ipfpncvd14h8ahemqrlr31kbt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.packuba.app",
+            "certificate_hash": "42278ed12c1c5cc3a77fcdc1c5d75778a12ecafe"
+          }
+        },
+        {
+          "client_id": "317216199245-glmjpl70fleen347k8dvk02iesoqb0e2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIBkOie5fHowPKo7TpHfVRQJKo40Ms8-4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "317216199245-glmjpl70fleen347k8dvk02iesoqb0e2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
