@@ -16,7 +16,7 @@ export const SubcategoriesList = ({subcategories}: Props) => {
 				alignItems: 'flex-start',
 				marginTop: 50,
 				marginLeft: 10,
-				marginBottom: 50
+				marginBottom: 70
 			}}
 		>
 			<View style={{flexDirection: 'row', marginBottom: 5}}>
@@ -24,9 +24,9 @@ export const SubcategoriesList = ({subcategories}: Props) => {
 					<Text style={{textAlign: 'left'}}>Elemento</Text>
 				</View>
 				<View style={{flex: 2}}>
-					<Text style={{textAlign: 'right'}}>Precio</Text>
+					<Text style={{textAlign: 'center', marginLeft: 10}}>Precio</Text>
 				</View>
-				<View style={{flex: 2}}>
+				<View style={{flex: 2, marginLeft: 5}}>
 					<Text style={{textAlign: 'center'}}>Cantidad</Text>
 				</View>
 				<View style={{flex: 2}}>

@@ -8,9 +8,9 @@ import {
 	TouchableOpacity
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+
 import {CarItemProps} from '../interfaces/Shop.Interface';
 import {Subcategory} from '../interfaces/Subcategory.interface';
-
 interface Props {
 	car: CarItemProps[];
 	item: Subcategory;
@@ -28,6 +28,9 @@ export const SingleSubcategory = ({car, item, setItem}: Props) => {
 			}
 		});
 	}, [car]);
+	useEffect(() => {
+		if (parseInt(cantidad) < 1) setCantidad('1');
+	}, [cantidad]);
 	const setCarItem = () => {
 		if (parseInt(cantidad) < 1) {
 			setCantidad('1');
@@ -45,17 +48,42 @@ export const SingleSubcategory = ({car, item, setItem}: Props) => {
 			<View style={{flex: 2}}>
 				<Text style={styles.name}>{item.price}$</Text>
 			</View>
-			<View style={{flex: 2}}>
+			<View style={{flex: 3, flexDirection: 'row'}}>
+				<TouchableOpacity
+					style={{
+						flex: 1,
+						alignItems: 'center',
+						justifyContent: 'center'
+					}}
+					onPress={() =>
+						cantidad !== '1' && setCantidad((parseInt(cantidad) - 1).toString())
+					}
+				>
+					<Text style={{fontSize: 22, color: 'red'}}>
+						{cantidad !== '1' ? '-' : ' '}
+					</Text>
+				</TouchableOpacity>
 				<TextInput
 					style={{
 						color: buttonName === 'Añadir' ? '#CACACA' : 'black',
 						flex: 1,
-						paddingLeft: 5
+						paddingHorizontal: 5,
+						textAlign: 'center'
 					}}
 					keyboardType="number-pad"
 					value={cantidad}
 					onChangeText={(value) => setCantidad(value)}
 				/>
+				<TouchableOpacity
+					style={{
+						flex: 1,
+						alignItems: 'center',
+						justifyContent: 'center'
+					}}
+					onPress={() => setCantidad((parseInt(cantidad) + 1).toString())}
+				>
+					<Text style={{fontSize: 22, color: 'green'}}>+</Text>
+				</TouchableOpacity>
 			</View>
 			<View style={{flex: 3}}>
 				<TouchableOpacity
@@ -67,17 +95,9 @@ export const SingleSubcategory = ({car, item, setItem}: Props) => {
 							textAlign: 'center',
 							color: buttonName === 'Add' ? '#22ad29' : '#E7E35E'
 						}}
-						name={buttonName === 'Add' ? 'plus' : 'pencil-alt'}
+						name={buttonName === 'Add' ? 'shopping-basket' : 'pencil-alt'}
 						size={18}
 					/>
-					{/* <Text
-						style={{
-							textAlign: 'center',
-							color: buttonName === 'Añadir' ? '#22ad29' : '#E7E35E'
-						}}
-					>
-						{buttonName}
-					</Text> */}
 				</TouchableOpacity>
 			</View>
 		</View>
