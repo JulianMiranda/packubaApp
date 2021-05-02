@@ -1,30 +1,18 @@
 import React, {useContext} from 'react';
-import {
-	View,
-	Text,
-	Image,
-	FlatList,
-	ActivityIndicator,
-	TouchableOpacity
-} from 'react-native';
+import {View, Text, Image, FlatList} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {CategoryCard} from '../../components/CategoryCard';
 import {PackubaName} from '../../components/PackubaName';
-import {ShopContext} from '../../context/shop/ShopContext';
 import {ThemeContext} from '../../context/theme/ThemeContext';
 import {useCategoryPaginated} from '../../hooks/useCategoryPaginated';
 import {homeStyles} from '../../styles/homeTheme';
-import {useNavigation} from '@react-navigation/core';
 import {ShopIcon} from '../../components/ShopIcon';
 import {StackScreenProps} from '@react-navigation/stack';
 
 interface Props extends StackScreenProps<any, any> {}
 
 export const HomeScreen = (props: Props) => {
-	const navigation = useNavigation();
 	const {top} = useSafeAreaInsets();
-	const {car} = useContext(ShopContext);
 
 	const {
 		theme: {colors}
@@ -37,7 +25,7 @@ export const HomeScreen = (props: Props) => {
 				source={require('../../assets/PackubaLogoWhite.png')}
 				style={homeStyles.imageBG}
 			/>
-			<ShopIcon {...props} />
+			{/* <ShopIcon {...props} /> */}
 
 			<View style={{alignItems: 'center'}}>
 				<FlatList

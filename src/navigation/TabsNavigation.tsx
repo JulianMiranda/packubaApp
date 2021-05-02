@@ -5,6 +5,7 @@ import {SettingsStack} from './SettingsStack';
 import {HomeStack} from './HomeStack';
 import {ThemeContext} from '../context/theme/ThemeContext';
 import {Platform} from 'react-native';
+import {ShopStack} from './ShopStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -39,11 +40,16 @@ export const TabsNavigation = () => {
 				tabBarIcon: ({color}) => screenOptions(route, color)
 			})}
 		>
-			<Tab.Screen name="home" component={HomeStack} />
+			<Tab.Screen name="home" options={{title: 'Home'}} component={HomeStack} />
+			<Tab.Screen
+				name="shop"
+				options={{title: 'Mi Compra'}}
+				component={ShopStack}
+			/>
 			<Tab.Screen
 				name="settings"
 				component={SettingsStack}
-				options={{title: 'Settings'}}
+				options={{title: 'Contáctanos'}}
 			/>
 		</Tab.Navigator>
 	);
@@ -56,6 +62,10 @@ function screenOptions(route: any, color: string) {
 		case 'home':
 			iconName = 'home';
 			break;
+		case 'shop':
+			iconName = 'shopping-cart';
+			break;
+
 		case 'settings':
 			iconName = 'briefcase';
 			break;
@@ -63,5 +73,11 @@ function screenOptions(route: any, color: string) {
 		default:
 			iconName = 'briefcase';
 	}
-	return <Icon name={iconName} size={22} color={color} />;
+	return (
+		<Icon
+			name={iconName}
+			size={iconName === 'shopping-cart' ? 24 : 22}
+			color={color}
+		/>
+	);
 }

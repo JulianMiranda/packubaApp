@@ -34,9 +34,15 @@ export const ShopIcon = ({navigation}: Props) => {
 const styles = StyleSheet.create({
 	shopIcon: {
 		position: 'absolute',
-		right: 25,
-		top: 45,
-		zIndex: 9999999999
+		left: 180,
+		bottom: 15,
+		zIndex: 9999999999,
+		backgroundColor: 'rgba(255,255,255,0.8)',
+		borderTopWidth: 1,
+		borderLeftWidth: 1,
+		borderRightWidth: 1,
+		padding: 10,
+		borderRadius: 100
 	},
 	badge: {
 		backgroundColor: 'red',

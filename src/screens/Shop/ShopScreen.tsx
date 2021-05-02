@@ -13,9 +13,8 @@ import {RootStackParams} from '../../navigation/HomeStack';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ShopContext} from '../../context/shop/ShopContext';
 import {CarItemProps} from '../../interfaces/Shop.Interface';
-import {registerForPushNotifications} from '../../utils/notificationPermissions';
 
-interface Props extends StackScreenProps<RootStackParams, 'ShopScreen'> {}
+interface Props extends StackScreenProps<any, any> {}
 
 interface FunctionProps {
 	item: CarItemProps;
@@ -23,8 +22,9 @@ interface FunctionProps {
 }
 
 export const ShopScreen = (props: Props) => {
-	const {navigation, route} = props;
-	const {color} = route.params;
+	/* 	const {navigation, route} = props;
+	const {color} = route.params; */
+	const color = 'red';
 	const {top} = useSafeAreaInsets();
 
 	const {car, unsetItem, emptyCar, makeShop} = useContext(ShopContext);
@@ -46,7 +46,8 @@ export const ShopScreen = (props: Props) => {
 	return (
 		<>
 			{/* Backbutton */}
-			<BackButton {...props} />
+			{/* 
+			<BackButton {...props} /> */}
 			<ScrollView style={{flex: 1}}>
 				{/* Heade Containerr */}
 				<View

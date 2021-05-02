@@ -12,7 +12,7 @@ export const SettingsStack = () => {
 				name="SettingsScreen"
 				component={SettingsScreen}
 				options={{
-					title: 'Settings',
+					title: 'Configuración',
 					headerBackTitleVisible: false
 				}}
 			/>
