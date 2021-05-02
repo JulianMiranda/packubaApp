@@ -15,7 +15,7 @@ export const lightTheme: ThemeState = {
 	tabColor: 'rgba(255,255,255, 0.92)',
 
 	colors: {
-		primary: '#0059FF',
+		primary: '#FB8046',
 		background: 'white',
 		card: 'white',
 		text: 'black',
@@ -30,7 +30,7 @@ export const darkTheme: ThemeState = {
 	dividerColor: 'rgba(255,255,255, 0.6)',
 	tabColor: 'rgba(0,0,0, 0.92)',
 	colors: {
-		primary: '#0059FF',
+		primary: '#FB8046',
 		background: 'black',
 		card: 'black',
 		text: 'white',

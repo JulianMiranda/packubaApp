@@ -1,11 +1,17 @@
 import React, {useContext} from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {StyleSheet, View} from 'react-native';
+import {
+	BottomTabBar,
+	createBottomTabNavigator
+} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {SettingsStack} from './SettingsStack';
 import {HomeStack} from './HomeStack';
 import {ThemeContext} from '../context/theme/ThemeContext';
 import {Platform} from 'react-native';
 import {ShopStack} from './ShopStack';
+import {IS_IPHONE_X} from '../utils/isIphone';
+import {TabBarAdvancedButton} from '../components/TabBarAdvancedButton';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,17 +23,27 @@ export const TabsNavigation = () => {
 	return (
 		<Tab.Navigator
 			initialRouteName="home"
-			tabBarOptions={{
-				/* style: {
-					position: 'absolute',
-					elevation: 0
-				}, */
+			tabBar={(props) => (
+				<View style={styles.navigatorContainer}>
+					<BottomTabBar {...props} />
+					{IS_IPHONE_X && (
+						<View
+							style={[
+								styles.xFillLine,
+								{
+									backgroundColor: 'rgba(255,255,255,0.92)'
+								}
+							]}
+						/>
+					)}
+				</View>
+			)}
+			/* tabBarOptions={{
+				
 				keyboardHidesTabBar: true,
 				inactiveTintColor: 'gray',
 				activeTintColor: colors.primary,
-				labelStyle: {
-					marginBottom: Platform.OS === 'ios' ? 5 : 10
-				},
+			
 				style: {
 					position: 'absolute',
 					backgroundColor: theme.tabColor,
@@ -35,49 +51,80 @@ export const TabsNavigation = () => {
 					elevation: 0,
 					height: Platform.OS === 'ios' ? 50 : 60
 				}
+			}} */
+
+			tabBarOptions={{
+				keyboardHidesTabBar: true,
+				inactiveTintColor: 'gray',
+				style: styles.navigator,
+				labelStyle: {
+					marginBottom: Platform.OS === 'ios' ? 5 : 10
+				},
+				tabStyle: {
+					backgroundColor: 'rgba(255,255,255,0.92)'
+				},
+				activeTintColor: colors.primary
 			}}
-			screenOptions={({route}) => ({
-				tabBarIcon: ({color}) => screenOptions(route, color)
-			})}
 		>
-			<Tab.Screen name="home" options={{title: 'Home'}} component={HomeStack} />
+			<Tab.Screen
+				name="home"
+				component={HomeStack}
+				options={{
+					title: 'Tienda',
+					tabBarIcon: ({color}) => <Icon name="home" size={24} color={color} />
+				}}
+			/>
 			<Tab.Screen
 				name="shop"
-				options={{title: 'Mi Compra'}}
+				/* options={{title: 'Mi Compra'}} */
+				options={{
+					tabBarButton: (props) => (
+						<TabBarAdvancedButton bgColor={'#F6F7EB'} {...props} />
+					)
+				}}
 				component={ShopStack}
 			/>
 			<Tab.Screen
 				name="settings"
 				component={SettingsStack}
-				options={{title: 'Contáctanos'}}
+				options={{
+					title: 'Contáctanos',
+					tabBarIcon: ({color}) => (
+						<Icon name="briefcase" size={24} color={color} />
+					)
+				}}
 			/>
 		</Tab.Navigator>
 	);
 };
 
-function screenOptions(route: any, color: string) {
-	let iconName;
-
-	switch (route.name) {
-		case 'home':
-			iconName = 'home';
-			break;
-		case 'shop':
-			iconName = 'shopping-cart';
-			break;
-
-		case 'settings':
-			iconName = 'briefcase';
-			break;
-
-		default:
-			iconName = 'briefcase';
+const styles = StyleSheet.create({
+	container: {
+		flex: 1
+	},
+	navigatorContainer: {
+		position: 'absolute',
+		bottom: 0,
+		left: 0,
+		right: 0,
+		shadowColor: '#000',
+		shadowOffset: {
+			width: 0,
+			height: 1
+		},
+		shadowOpacity: 0.22,
+		shadowRadius: 2.22
+	},
+	navigator: {
+		borderTopWidth: 0,
+		backgroundColor: 'transparent',
+		elevation: 30
+	},
+	xFillLine: {
+		position: 'absolute',
+		bottom: 0,
+		left: 0,
+		right: 0,
+		height: 34
 	}
-	return (
-		<Icon
-			name={iconName}
-			size={iconName === 'shopping-cart' ? 24 : 22}
-			color={color}
-		/>
-	);
-}
+});

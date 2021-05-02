@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import {View, Text} from 'react-native';
 import {ShopContext} from '../context/shop/ShopContext';
 import {Subcategory} from '../interfaces/Subcategory.interface';

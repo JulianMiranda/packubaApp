@@ -23,6 +23,7 @@
     "react-native-appearance": "~0.3.3",
     "react-native-easy-toast": "^2.0.0",
     "react-native-image-colors": "^1.2.7",
+    "react-native-svg": "^12.1.1",
     "react-native-vector-icons": "^8.1.0",
     "react-native-web": "~0.13.12"
   },

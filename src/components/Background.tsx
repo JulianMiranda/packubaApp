@@ -1,12 +1,16 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View} from 'react-native';
+import {ThemeContext} from '../context/theme/ThemeContext';
 
 export const Background = () => {
+	const {
+		theme: {colors}
+	} = useContext(ThemeContext);
 	return (
 		<View
 			style={{
 				position: 'absolute',
-				backgroundColor: '#d67456',
+				backgroundColor: colors.primary,
 				top: -270,
 				width: 1000,
 				height: 1200,
