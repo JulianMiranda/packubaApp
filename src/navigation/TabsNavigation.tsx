@@ -4,7 +4,7 @@ import {
 	BottomTabBar,
 	createBottomTabNavigator
 } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import {SettingsStack} from './SettingsStack';
 import {HomeStack} from './HomeStack';
 import {ThemeContext} from '../context/theme/ThemeContext';
@@ -71,7 +71,7 @@ export const TabsNavigation = () => {
 				component={HomeStack}
 				options={{
 					title: 'Tienda',
-					tabBarIcon: ({color}) => <Icon name="home" size={24} color={color} />
+					tabBarIcon: ({color}) => <Icon name="store" size={22} color={color} />
 				}}
 			/>
 			<Tab.Screen
@@ -90,7 +90,7 @@ export const TabsNavigation = () => {
 				options={{
 					title: 'Contáctanos',
 					tabBarIcon: ({color}) => (
-						<Icon name="briefcase" size={24} color={color} />
+						<Icon name="phone-square-alt" size={24} color={color} />
 					)
 				}}
 			/>

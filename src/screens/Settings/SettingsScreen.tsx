@@ -39,7 +39,9 @@ export const SettingsScreen = ({navigation}: Props) => {
 
 			<TouchableOpacity
 				onPress={() =>
-					Linking.openURL('http://api.whatsapp.com/send?phone=+593995687985')
+					Linking.openURL(
+						'http://api.whatsapp.com/send?text=Este es un mensaje predetermidado&phone=+593995687985'
+					)
 				}
 				style={{
 					backgroundColor: '#f0f0f0',
