@@ -1,6 +1,12 @@
 import React from 'react';
-import {Button, Modal, Image, View, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import {
+	Button,
+	Modal,
+	Image,
+	View,
+	TouchableOpacity,
+	TouchableWithoutFeedback
+} from 'react-native';
 
 interface Props {
 	isVisible: boolean;
@@ -9,18 +15,25 @@ interface Props {
 }
 export const ModalComponent = ({isVisible, setIsVisible, imageUri}: Props) => {
 	return (
-		<Modal animationType="fade" visible={isVisible} transparent={true}>
+		<Modal
+			animationType="fade"
+			visible={isVisible}
+			transparent={true}
+			onRequestClose={() => setIsVisible(false)}
+		>
 			{/* Background negro */}
-			<View
+			<TouchableOpacity
 				style={{
 					flex: 1,
 					backgroundColor: 'rgba(0,0,0,0.3)',
 					justifyContent: 'center',
 					alignItems: 'center'
 				}}
+				activeOpacity={1}
+				onPressOut={() => setIsVisible(false)}
 			>
 				{/* Contenido del modal */}
-				<View
+				<TouchableWithoutFeedback
 					style={{
 						width: 300,
 						height: 300,
@@ -39,15 +52,8 @@ export const ModalComponent = ({isVisible, setIsVisible, imageUri}: Props) => {
 						style={{width: 300, height: 300, borderRadius: 10}}
 						source={{uri: imageUri}}
 					/>
-					<TouchableOpacity
-						onPress={() => setIsVisible(false)}
-						activeOpacity={0.8}
-						style={{position: 'absolute', right: 5, top: 5}}
-					>
-						<Icon name="times-circle" size={22} />
-					</TouchableOpacity>
-				</View>
-			</View>
+				</TouchableWithoutFeedback>
+			</TouchableOpacity>
 		</Modal>
 	);
 };
