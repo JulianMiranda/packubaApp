@@ -13,6 +13,7 @@ export const TabBarAdvancedButton: React.FC<Props> = ({bgColor, ...props}) => {
 	const {
 		theme: {colors}
 	} = useContext(ThemeContext);
+
 	return (
 		<View style={styles.container} pointerEvents="box-none">
 			<TabBg color={'rgba(255,255,255,0.92)'} style={styles.background} />

@@ -11,6 +11,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import {CarItemProps} from '../interfaces/Shop.Interface';
 import {Subcategory} from '../interfaces/Subcategory.interface';
+import {MovingImage} from './MovingImage';
 interface Props {
 	car: CarItemProps[];
 	item: Subcategory;
@@ -41,7 +42,8 @@ export const SingleSubcategory = ({car, item, setItem}: Props) => {
 	};
 	return (
 		<View style={styles.itemContainer}>
-			<Image source={{uri: item.image.url}} style={styles.image} />
+			<MovingImage uri={item.image.url} style={styles.image} />
+			{/* <Image source={{uri: item.image.url}} style={styles.image} /> */}
 			<View style={{flex: 6}}>
 				<Text style={styles.name}>{item.name}</Text>
 			</View>

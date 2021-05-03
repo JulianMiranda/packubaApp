@@ -58,7 +58,7 @@ export const TabsNavigation = () => {
 				inactiveTintColor: 'gray',
 				style: styles.navigator,
 				labelStyle: {
-					marginBottom: Platform.OS === 'ios' ? 5 : 10
+					marginBottom: Platform.OS === 'ios' ? 5 : 5
 				},
 				tabStyle: {
 					backgroundColor: 'rgba(255,255,255,0.92)'
