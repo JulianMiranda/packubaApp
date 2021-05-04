@@ -18,11 +18,9 @@ const askNotificationPermissions = async () => {
 };
 
 const registerForPushNotifications = async () => {
-	console.log('Pidendo per');
-
 	const enabled = await askNotificationPermissions();
 	if (!enabled) {
-		return Promise.resolve();
+		return '';
 	}
 	let token = await Notifications.getExpoPushTokenAsync();
 	console.log('User Push Token - ', token.data);

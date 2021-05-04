@@ -28,7 +28,7 @@ export const ShopProvider = ({children}: any) => {
 	}, [status]);
 	const checkCar = async () => {
 		const resp = await api.get<Array<MyShopResponse>>('/shop/getMyShop');
-		if (resp.data[0].car.length > 0) {
+		if (resp.data.length && resp.data[0].car.length > 0) {
 			resp.data[0].car.map((item) => setItem(item));
 		}
 	};

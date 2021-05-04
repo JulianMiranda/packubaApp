@@ -16,7 +16,7 @@ export const SettingsScreen = ({navigation}: Props) => {
 	} = useContext(ThemeContext);
 	return (
 		<View>
-			<InfoUser toastRef={toastRef} />
+			{/* <InfoUser toastRef={toastRef} /> */}
 
 			<TouchableOpacity
 				onPress={() => navigation.navigate('ChangeThemeScreen')}

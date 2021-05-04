@@ -11,7 +11,8 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import {CarItemProps} from '../interfaces/Shop.Interface';
 import {Subcategory} from '../interfaces/Subcategory.interface';
-import {MovingImage} from './MovingImage';
+import {FadeInImage} from './FadeInImage';
+import {ModalComponent} from './Modal';
 interface Props {
 	car: CarItemProps[];
 	item: Subcategory;
@@ -20,6 +21,7 @@ interface Props {
 export const SingleSubcategory = ({car, item, setItem}: Props) => {
 	const [cantidad, setCantidad] = useState('1');
 	const [buttonName, setButtonName] = useState('Add');
+	const [isVisible, setIsVisible] = useState(false);
 
 	useEffect(() => {
 		car.map(({subcategory, cantidad}) => {
@@ -42,7 +44,9 @@ export const SingleSubcategory = ({car, item, setItem}: Props) => {
 	};
 	return (
 		<View style={styles.itemContainer}>
-			<MovingImage uri={item.image.url} style={styles.image} />
+			<TouchableOpacity activeOpacity={0.8} onPress={() => setIsVisible(true)}>
+				<FadeInImage uri={item.image.url} style={styles.image} />
+			</TouchableOpacity>
 			{/* <Image source={{uri: item.image.url}} style={styles.image} /> */}
 			<View style={{flex: 6}}>
 				<Text style={styles.name}>{item.name}</Text>
@@ -102,6 +106,11 @@ export const SingleSubcategory = ({car, item, setItem}: Props) => {
 					/>
 				</TouchableOpacity>
 			</View>
+			<ModalComponent
+				isVisible={isVisible}
+				setIsVisible={setIsVisible}
+				imageUri={item.image.url}
+			/>
 		</View>
 	);
 };

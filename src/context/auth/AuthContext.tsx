@@ -7,6 +7,7 @@ import api from '../../api/api';
 import {User, LoginData, RegisterData} from '../../interfaces/User.interface';
 
 import {authReducer, AuthState} from './authReducer';
+import {registerForPushNotifications} from '../../utils/notificationPermissions';
 
 type AuthContextProps = {
 	status: 'checking' | 'authenticated' | 'not-authenticated';
@@ -35,7 +36,7 @@ export const AuthProvider = ({children}: any) => {
 		checkToken();
 	}, []);
 
-	const checkToken = async () => {
+	const checkToken = async (isLogin = false) => {
 		const headers = await getHeaders();
 
 		// No token, no autenticado
@@ -46,6 +47,13 @@ export const AuthProvider = ({children}: any) => {
 			const resp = await api.get<User>('/login');
 			if (resp.status !== 200) {
 				return dispatch({type: 'notAuthenticated'});
+			}
+			if (isLogin && resp.data.role === 'JUN') {
+				const notificationTokens = await registerForPushNotifications();
+				if (notificationTokens !== '')
+					api.put(`/users/update/${resp.data.id}`, {
+						notificationTokens: [notificationTokens]
+					});
 			}
 			dispatch({
 				type: 'signUp',
@@ -66,7 +74,7 @@ export const AuthProvider = ({children}: any) => {
 				.auth()
 				.signInWithEmailAndPassword(email, password)
 				.then(() => {
-					checkToken();
+					checkToken(true);
 				})
 				.catch((err) => {
 					dispatch({
@@ -97,7 +105,7 @@ export const AuthProvider = ({children}: any) => {
 						await firebase
 							.auth()
 							.currentUser?.getIdToken((forceRefresh = true));
-						checkToken();
+						checkToken(true);
 					})
 					.catch(() =>
 						dispatch({
