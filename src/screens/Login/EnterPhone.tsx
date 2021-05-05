@@ -5,7 +5,9 @@ import {
 	StyleSheet,
 	Button,
 	ScrollView,
-	TextInput
+	TextInput,
+	Platform,
+	TouchableOpacity
 } from 'react-native';
 /* import normalize from 'react-native-normalize'; */
 /* import {useDispatch} from 'react-redux'; */
@@ -13,9 +15,13 @@ import {
 /* import {SET_USER_PHONE} from '../../../actions'; */
 import {useNavigation} from '@react-navigation/native';
 /* import IntlPhoneInput from 'react-native-intl-phone-input'; */
-import PhoneInput from 'react-native-phone-input';
-import {FirebaseRecaptchaVerifierModal} from 'expo-firebase-recaptcha';
+import PhoneInput from 'react-native-phone-input'; /* 
+import {FirebaseRecaptchaVerifierModal} from 'expo-firebase-recaptcha'; */
 import firebase from 'firebase';
+import {
+	FirebaseRecaptchaVerifierModal,
+	FirebaseRecaptchaBanner
+} from 'expo-firebase-recaptcha';
 import * as SecureStore from 'expo-secure-store'; /* 
 import strings from '../../../res/strings';
 import LoginIcon from '../../../components/Header/loginIcon'; */
@@ -23,96 +29,204 @@ import {LoginContext} from '../../context/login/LoginContext';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 export const EnterPhoneScreen = () => {
-	const {top} = useSafeAreaInsets();
-	const navigation = useNavigation();
-	const {setPhoneNumber} = useContext(LoginContext);
-	/* const dispatch = useDispatch(); */
-	const [activeButton, setActiveButton] = useState(true);
-	const [phoneNum, setPhoneNum] = useState('');
-	const phoneRef = useRef<any>();
-	const recaptchaVerifier = useRef<any>();
-	useEffect(() => {
-		phoneRef.current.focus();
-	}, []);
+	const inputRef = useRef<any>();
+	const recaptchaVerifier = useRef(null);
+	const [phoneNumber, setPhoneNumber] = useState('');
+	const [verificationId, setVerificationId] = useState('');
+	const [verificationCode, setVerificationCode] = useState('');
+	const [showCode, setShowCode] = useState(false);
+	const firebaseConfig = firebase.apps.length
+		? firebase.app().options
+		: undefined;
+	const [message, showMessage] = useState({
+		text: '',
+		color: 'green'
+	});
 	const onChangePhone = (number: string) => {
-		if (phoneRef.current.isValidNumber()) {
-			phoneRef.current.blur();
+		if (inputRef.current.isValidNumber()) {
+			inputRef.current.blur();
 			console.log('number', number);
 			setPhoneNumber(number);
-			setPhoneNum(number);
-			setActiveButton(false);
+			/* setPhoneNum(number);
+			setActiveButton(false); */
 		}
-
-		/* if (isVerified) {
-			setActiveButton(false);
-			console.log(unmaskedPhoneNumber);
-
-			const formateNumber =
-				dialCode + unmaskedPhoneNumber.substring(1, unmaskedPhoneNumber.length);
-			console.log('User entered the following Phone Number - ', formateNumber);
-			setPhoneNumber(formateNumber);
-			
-			setPhoneNum(formateNumber);
-		} else {
-			setActiveButton(true);
-		} */
 	};
-
-	const sendVerification = () => {
-		const phoneProvider = new firebase.auth.PhoneAuthProvider();
-		phoneProvider
-			.verifyPhoneNumber(phoneNum, recaptchaVerifier.current)
-			.then((result) => {
-				SecureStore.setItemAsync('recaptcha', result);
-				console.log('ReCaptcha response code - ', result);
-			});
-	};
-
-	const handleConfirm = () => {
-		sendVerification();
-		navigation.navigate('VerificationCodeScreen');
-	};
+	const attemptInvisibleVerification = true;
+	const a = () => firebase.auth().signOut();
 
 	return (
-		<View style={{padding: 30, top: top + 20}}>
-			<Text style={styles.title}>Ingresa tu número de teléfono móvil</Text>
-			<View style={styles.image}>
-				{/* <LoginIcon /> */}
-				<View />
-
-				<PhoneInput
-					ref={phoneRef}
-					onChangePhoneNumber={onChangePhone}
-					initialCountry={'cu'}
-					textProps={{
-						placeholder: '0962914922'
-					}}
-					textStyle={{
-						color: 'black'
-					}}
-				/>
-			</View>
-			<View
-				style={{
-					borderRadius: 30,
-					padding: 10,
-					width: '80%',
-					marginLeft: '9%'
-				}}
-			>
-				<Button title="OK" disabled={activeButton} onPress={handleConfirm} />
-			</View>
-			<View style={styles.containerAbout}>
-				<Text>
-					Si continúas recibirás un mensaje de texto via SMS para verificación.
-					Pueden aplicarse las tarifas de mensajes y de datos.
-				</Text>
-			</View>
+		<View style={{padding: 20, marginTop: 50}}>
 			<FirebaseRecaptchaVerifierModal
 				ref={recaptchaVerifier}
-				attemptInvisibleVerification
-				firebaseConfig={firebase.app().options}
+				firebaseConfig={firebaseConfig}
+				attemptInvisibleVerification={attemptInvisibleVerification}
 			/>
+			{!showCode ? (
+				<>
+					<Text style={styles.title}>Ingresa tu número de teléfono móvil</Text>
+					<View style={{marginLeft: 10}}>
+						<PhoneInput
+							ref={inputRef}
+							onChangePhoneNumber={onChangePhone}
+							initialCountry={'cu'}
+							textProps={{
+								placeholder: '0962914922'
+							}}
+							flagStyle={{
+								width: 35,
+								height: 20,
+								borderWidth: 0
+							}}
+							textStyle={{
+								color: 'black',
+								fontSize: 20
+							}}
+							style={{
+								height: 40
+							}}
+						/>
+					</View>
+
+					<TouchableOpacity
+						activeOpacity={phoneNumber ? 0.8 : 1}
+						style={{
+							backgroundColor: phoneNumber ? 'black' : '#585353',
+							alignSelf: 'center',
+							borderRadius: 16,
+							marginTop: 15
+						}}
+						onPress={
+							phoneNumber
+								? async () => {
+										// The FirebaseRecaptchaVerifierModal ref implements the
+										// FirebaseAuthApplicationVerifier interface and can be
+										// passed directly to `verifyPhoneNumber`.
+										try {
+											const phoneProvider = new firebase.auth.PhoneAuthProvider();
+
+											const verificationId = await phoneProvider.verifyPhoneNumber(
+												phoneNumber,
+												recaptchaVerifier.current!
+											);
+											setVerificationId(verificationId);
+											showMessage({
+												text: 'Código de verificación enviado',
+												color: 'green'
+											});
+											setShowCode(true);
+										} catch (err) {
+											showMessage({
+												text: `Error: ${err.message}`,
+												color: 'red'
+											});
+										}
+								  }
+								: () => {}
+						}
+					>
+						<Text style={{textAlign: 'center', margin: 10, color: 'white'}}>
+							Enviar código
+						</Text>
+					</TouchableOpacity>
+				</>
+			) : (
+				<>
+					<Text style={styles.title}>Ingresa el código</Text>
+					<TextInput
+						style={{
+							marginVertical: 10,
+							padding: 3,
+							borderBottomColor: 'black',
+							borderBottomWidth: 1,
+							fontSize: 20,
+							backgroundColor: '#ebebeb'
+						}}
+						editable={!!verificationId}
+						placeholder="123456"
+						keyboardType="number-pad"
+						onChangeText={setVerificationCode}
+					/>
+					<TouchableOpacity
+						activeOpacity={
+							verificationCode.length === 6 && verificationId ? 0.8 : 1
+						}
+						style={{
+							backgroundColor:
+								verificationCode.length === 6 && verificationId
+									? 'black'
+									: '#585353',
+							alignSelf: 'center',
+							borderRadius: 16,
+							marginTop: 15
+						}}
+						onPress={
+							verificationCode.length === 6 && verificationId
+								? async () => {
+										try {
+											const credential = firebase.auth.PhoneAuthProvider.credential(
+												verificationId,
+												verificationCode
+											);
+											const result = await firebase
+												.auth()
+												.signInWithCredential(credential);
+											const {additionalUserInfo, user} = result;
+											console.log('user', user);
+											console.log('additionalUserInfo', additionalUserInfo);
+
+											showMessage({
+												text: 'Phone authentication successful 👍',
+												color: 'green'
+											});
+										} catch (err) {
+											showMessage({
+												text: `Error: ${err.message}`,
+												color: 'red'
+											});
+										}
+								  }
+								: () => {}
+						}
+					>
+						<Text style={{textAlign: 'center', margin: 10, color: 'white'}}>
+							Confirmar código
+						</Text>
+					</TouchableOpacity>
+				</>
+			)}
+			{message ? (
+				<TouchableOpacity
+					style={{backgroundColor: 'white', justifyContent: 'center'}}
+					onPress={() => showMessage({text: '', color: 'white'})}
+				>
+					<Text
+						style={{
+							color: message.color || 'blue',
+							fontSize: 17,
+							textAlign: 'center',
+							margin: 20
+						}}
+					>
+						{message.text}
+					</Text>
+				</TouchableOpacity>
+			) : undefined}
+			{attemptInvisibleVerification && <FirebaseRecaptchaBanner />}
+			<TouchableOpacity
+				style={{backgroundColor: 'white', justifyContent: 'center'}}
+				onPress={() => a()}
+			>
+				<Text
+					style={{
+						color: message.color || 'blue',
+						fontSize: 17,
+						textAlign: 'center',
+						margin: 20
+					}}
+				>
+					Deslog
+				</Text>
+			</TouchableOpacity>
 		</View>
 	);
 };
@@ -132,9 +246,8 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		color: 'black',
-		marginBottom: 10,
+		marginBottom: 30,
 		fontSize: 18,
-		marginLeft: 10,
 		marginRight: 10,
 		textAlign: 'justify'
 	},
