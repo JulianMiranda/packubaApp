@@ -5,7 +5,7 @@ export const useAnimation = () => {
 	const opacity = useRef(new Animated.Value(0)).current;
 	const position = useRef(new Animated.Value(0)).current;
 
-	const fadeIn = (duration: number = 300) => {
+	const fadeIn = (duration: number = 700) => {
 		Animated.timing(opacity, {
 			toValue: 1,
 			duration,
@@ -16,14 +16,14 @@ export const useAnimation = () => {
 	const fadeOut = () => {
 		Animated.timing(opacity, {
 			toValue: 0,
-			duration: 300,
+			duration: 700,
 			useNativeDriver: true
 		}).start();
 	};
 
 	const startMovingPosition = (
 		initPosition: number,
-		duration: number = 300
+		duration: number = 100
 	) => {
 		console.log('duin');
 

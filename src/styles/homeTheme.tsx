@@ -1,4 +1,6 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+
+const {width, height} = Dimensions.get('window');
 
 export const homeStyles = StyleSheet.create({
 	globalMargin: {
@@ -6,10 +8,10 @@ export const homeStyles = StyleSheet.create({
 	},
 	imageBG: {
 		position: 'absolute',
-		width: 200,
-		height: 200,
-		top: -15,
-		right: -5,
+		width: 350,
+		height: 350,
+		top: height / 2 - 100,
+		right: width / 2 - 175,
 		opacity: 0.2
 	},
 	title: {
