@@ -27,8 +27,12 @@ import strings from '../../../res/strings';
 import LoginIcon from '../../../components/Header/loginIcon'; */
 import {LoginContext} from '../../context/login/LoginContext';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {ThemeContext} from '../../context/theme/ThemeContext';
 
 export const EnterPhoneScreen = () => {
+	const {
+		theme: {colors}
+	} = useContext(ThemeContext);
 	const inputRef = useRef<any>();
 	const recaptchaVerifier = useRef(null);
 	const [phoneNumber, setPhoneNumber] = useState('');
@@ -73,16 +77,21 @@ export const EnterPhoneScreen = () => {
 								placeholder: '0962914922'
 							}}
 							flagStyle={{
-								width: 35,
-								height: 20,
+								width: 40,
+								height: 25,
 								borderWidth: 0
 							}}
 							textStyle={{
 								color: 'black',
-								fontSize: 20
+								fontSize: 25,
+								backgroundColor: '#DBEBFF',
+								borderBottomColor: 'rgba(0,0,0,0.92)',
+								borderBottomWidth: 2,
+								height: 30,
+								marginRight: 15
 							}}
 							style={{
-								height: 40
+								height: 45
 							}}
 						/>
 					</View>
@@ -90,7 +99,7 @@ export const EnterPhoneScreen = () => {
 					<TouchableOpacity
 						activeOpacity={phoneNumber ? 0.8 : 1}
 						style={{
-							backgroundColor: phoneNumber ? 'black' : '#585353',
+							backgroundColor: phoneNumber ? colors.card : '#abcffa',
 							alignSelf: 'center',
 							borderRadius: 16,
 							marginTop: 15
@@ -131,7 +140,7 @@ export const EnterPhoneScreen = () => {
 				</>
 			) : (
 				<>
-					<Text style={styles.title}>Ingresa el código</Text>
+					<Text style={styles.title}>Ingresa el código enviado</Text>
 					<TextInput
 						style={{
 							marginVertical: 10,
@@ -139,7 +148,7 @@ export const EnterPhoneScreen = () => {
 							borderBottomColor: 'black',
 							borderBottomWidth: 1,
 							fontSize: 20,
-							backgroundColor: '#ebebeb'
+							backgroundColor: '#abcffa'
 						}}
 						editable={!!verificationId}
 						placeholder="123456"
@@ -153,8 +162,8 @@ export const EnterPhoneScreen = () => {
 						style={{
 							backgroundColor:
 								verificationCode.length === 6 && verificationId
-									? 'black'
-									: '#585353',
+									? colors.card
+									: '#f8f8f8',
 							alignSelf: 'center',
 							borderRadius: 16,
 							marginTop: 15

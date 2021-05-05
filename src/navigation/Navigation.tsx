@@ -12,6 +12,7 @@ import {RegisterScreen} from '../screens/Login/RegisterScreen';
 import {Loading} from '../components/Loading';
 import {EnterPhoneScreen} from '../screens/Login/EnterPhone';
 import {VerificationCodeScreen} from '../screens/Login/VerificationCode';
+import {InfoScreen} from '../screens/Login/InfoScreen';
 
 const Stack = createStackNavigator();
 
@@ -34,6 +35,7 @@ export const Navigator = () => {
 				>
 					{status !== 'authenticated' ? (
 						<>
+							<Stack.Screen name="InfoScreen" component={InfoScreen} />
 							<Stack.Screen
 								name="EnterPhoneScreen"
 								component={EnterPhoneScreen}
