@@ -1,7 +1,6 @@
 import {StyleSheet, Dimensions} from 'react-native';
 
 const {width, height} = Dimensions.get('window');
-console.log(height, width);
 
 export const homeStyles = StyleSheet.create({
 	globalMargin: {

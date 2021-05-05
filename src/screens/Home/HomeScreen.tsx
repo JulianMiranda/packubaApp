@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {View, Text, Image, FlatList, Platform} from 'react-native';
+import {View, Text, Image, FlatList, Platform, Dimensions} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {CategoryCard} from '../../components/CategoryCard';
 import {PackubaName} from '../../components/PackubaName';
@@ -10,7 +10,7 @@ import {ShopIcon} from '../../components/ShopIcon';
 import {StackScreenProps} from '@react-navigation/stack';
 
 interface Props extends StackScreenProps<any, any> {}
-
+const {width, height} = Dimensions.get('window');
 export const HomeScreen = (props: Props) => {
 	const {top} = useSafeAreaInsets();
 
@@ -32,17 +32,34 @@ export const HomeScreen = (props: Props) => {
 					...homeStyles.globalMargin,
 					position: 'absolute',
 					zIndex: 9999999,
-					width: '100%',
-					alignItems: 'flex-start',
+					width: width,
+					left: 0,
+					/* width: '100%', */
+					/* alignItems: 'center',
+					alignContent: 'center', */
 
-					backgroundColor: 'rgba(255,255,255,0.92)',
-					borderBottomRightRadius: Platform.OS === 'ios' ? 5000 : 2000,
-					borderBottomLeftRadius: 0
+					backgroundColor:
+						'rgba(255,255,255,0.92)' /* 
+					borderBottomRightRadius: Platform.OS === 'ios' ? 100 : 200,
+					borderBottomLeftRadius: Platform.OS === 'ios' ? 40 : 40 */
 
 					/* top: top, */
 				}}
 			>
-				<PackubaName />
+				<Image
+					source={require('../../assets/LOGO2.png')}
+					style={{
+						/* position: 'absolute',
+						left: width / 2 - 120, */
+						alignSelf: 'center',
+						marginTop: top + 5,
+						height: 37,
+						width: 180,
+						marginRight: 30,
+						marginBottom: 5
+					}}
+				/>
+				{/* <PackubaName /> */}
 			</View>
 
 			<View style={{alignItems: 'center'}}>
@@ -56,8 +73,8 @@ export const HomeScreen = (props: Props) => {
 						<View
 							style={{
 								...homeStyles.globalMargin,
-								top: top + 20,
-								marginBottom: top + 80,
+								top: top,
+								marginBottom: top + 60,
 								paddingBottom: 10
 							}}
 						>
