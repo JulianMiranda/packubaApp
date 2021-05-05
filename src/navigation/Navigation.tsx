@@ -10,6 +10,8 @@ import {ThemeContext} from '../context/theme/ThemeContext';
 import {LoginScreen} from '../screens/Login/LoginScreen';
 import {RegisterScreen} from '../screens/Login/RegisterScreen';
 import {Loading} from '../components/Loading';
+import {EnterPhoneScreen} from '../screens/Login/EnterPhone';
+import {VerificationCodeScreen} from '../screens/Login/VerificationCode';
 
 const Stack = createStackNavigator();
 
@@ -32,6 +34,14 @@ export const Navigator = () => {
 				>
 					{status !== 'authenticated' ? (
 						<>
+							<Stack.Screen
+								name="EnterPhoneScreen"
+								component={EnterPhoneScreen}
+							/>
+							<Stack.Screen
+								name="VerificationCodeScreen"
+								component={VerificationCodeScreen}
+							/>
 							<Stack.Screen name="LoginScreen" component={LoginScreen} />
 							<Stack.Screen name="RegisterScreen" component={RegisterScreen} />
 						</>
