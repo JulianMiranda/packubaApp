@@ -63,7 +63,7 @@ export const TabsNavigation = () => {
 				tabStyle: {
 					backgroundColor: 'rgba(255,255,255,0.92)'
 				},
-				activeTintColor: colors.primary
+				activeTintColor: colors.card
 			}}
 		>
 			<Tab.Screen

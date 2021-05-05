@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {View, Text, Image, FlatList} from 'react-native';
+import {View, Text, Image, FlatList, Platform} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {CategoryCard} from '../../components/CategoryCard';
 import {PackubaName} from '../../components/PackubaName';
@@ -22,10 +22,28 @@ export const HomeScreen = (props: Props) => {
 	return (
 		<>
 			<Image
-				source={require('../../assets/PackubaLogoWhite.png')}
+				source={require('../../assets/LOGO1.png')}
 				style={homeStyles.imageBG}
 			/>
 			{/* <ShopIcon {...props} /> */}
+
+			<View
+				style={{
+					...homeStyles.globalMargin,
+					position: 'absolute',
+					zIndex: 9999999,
+					width: '100%',
+					alignItems: 'flex-start',
+
+					backgroundColor: 'rgba(255,255,255,0.92)',
+					borderBottomRightRadius: Platform.OS === 'ios' ? 5000 : 2000,
+					borderBottomLeftRadius: 0
+
+					/* top: top, */
+				}}
+			>
+				<PackubaName />
+			</View>
 
 			<View style={{alignItems: 'center'}}>
 				<FlatList
@@ -39,23 +57,11 @@ export const HomeScreen = (props: Props) => {
 							style={{
 								...homeStyles.globalMargin,
 								top: top + 20,
-								marginBottom: top + 20,
+								marginBottom: top + 80,
 								paddingBottom: 10
 							}}
 						>
-							<PackubaName />
-							{/* <Text
-							style={{
-								...homeStyles.title,
-								...homeStyles.globalMargin,
-								top: top + 20,
-								marginBottom: top + 20,
-								paddingBottom: 10,
-								color: colors.text
-							}}
-						>
-							Packuba
-						</Text> */}
+							{/* <PackubaName /> */}
 						</View>
 					}
 					renderItem={({item}) => <CategoryCard category={item} />}
