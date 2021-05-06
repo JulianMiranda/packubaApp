@@ -3,11 +3,14 @@ import {Subcategory} from '../../interfaces/Subcategory.interface';
 
 export interface ShopState {
 	car: CarItemProps[];
+	message: string;
 }
 type ShopAction =
 	| {type: 'set_item'; payload: CarItemProps}
 	| {type: 'unset_item'; payload: Subcategory}
 	| {type: 'update_item'; payload: CarItemProps}
+	| {type: 'show_alert'; payload: string}
+	| {type: 'remove_alert'}
 	| {type: 'empty_car'};
 
 export const shopReducer = (
@@ -50,6 +53,16 @@ export const shopReducer = (
 			return {
 				...state,
 				car: []
+			};
+		case 'show_alert':
+			return {
+				...state,
+				message: action.payload
+			};
+		case 'remove_alert':
+			return {
+				...state,
+				message: ''
 			};
 
 		default:

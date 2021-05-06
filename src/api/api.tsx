@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {getHeaders} from './getHeaders';
 
-const baseURL = 'https://packuba.herokuapp.com/api';
+const baseURL = 'http://192.168.200.3:5001/api';
 
 const api = axios.create({baseURL});
 

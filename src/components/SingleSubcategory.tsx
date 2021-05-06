@@ -1,24 +1,26 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
 	StyleSheet,
 	View,
-	Image,
 	Text,
 	TextInput,
 	TouchableOpacity
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
+import {ShopContext} from '../context/shop/ShopContext';
 import {CarItemProps} from '../interfaces/Shop.Interface';
 import {Subcategory} from '../interfaces/Subcategory.interface';
 import {FadeInImage} from './FadeInImage';
 import {ModalComponent} from './Modal';
+
+type Root = 'Shop' | 'Subca';
+
 interface Props {
-	car: CarItemProps[];
 	item: Subcategory;
-	setItem: (item: any) => void;
+	root: Root;
 }
-export const SingleSubcategory = ({car, item, setItem}: Props) => {
+export const SingleSubcategory = ({item, root}: Props) => {
+	const {car, setItem, unsetItem} = useContext(ShopContext);
 	const [cantidad, setCantidad] = useState('1');
 	const [buttonName, setButtonName] = useState('Add');
 	const [isVisible, setIsVisible] = useState(false);
@@ -28,6 +30,8 @@ export const SingleSubcategory = ({car, item, setItem}: Props) => {
 			if (subcategory.id === item.id) {
 				setCantidad(cantidad.toString());
 				setButtonName('Edit');
+			} else {
+				setButtonName('Add');
 			}
 		});
 	}, [car]);
@@ -61,9 +65,12 @@ export const SingleSubcategory = ({car, item, setItem}: Props) => {
 						alignItems: 'center',
 						justifyContent: 'center'
 					}}
-					onPress={() =>
-						cantidad !== '1' && setCantidad((parseInt(cantidad) - 1).toString())
-					}
+					onPress={() => {
+						if (root === 'Shop')
+							setItem({subcategory: item, cantidad: parseInt(cantidad) - 1});
+						cantidad !== '1' &&
+							setCantidad((parseInt(cantidad) - 1).toString());
+					}}
 				>
 					<Text style={{fontSize: 22, color: 'red'}}>
 						{cantidad !== '1' ? '-' : ' '}
@@ -78,7 +85,11 @@ export const SingleSubcategory = ({car, item, setItem}: Props) => {
 					}}
 					keyboardType="number-pad"
 					value={cantidad}
-					onChangeText={(value) => setCantidad(value)}
+					onChangeText={(value) => {
+						if (root === 'Shop')
+							setItem({subcategory: item, cantidad: parseInt(value)});
+						setCantidad(value);
+					}}
 				/>
 				<TouchableOpacity
 					style={{
@@ -86,25 +97,38 @@ export const SingleSubcategory = ({car, item, setItem}: Props) => {
 						alignItems: 'center',
 						justifyContent: 'center'
 					}}
-					onPress={() => setCantidad((parseInt(cantidad) + 1).toString())}
+					onPress={() => {
+						if (root === 'Shop')
+							setItem({subcategory: item, cantidad: parseInt(cantidad) + 1});
+						setCantidad((parseInt(cantidad) + 1).toString());
+					}}
 				>
 					<Text style={{fontSize: 22, color: 'green'}}>+</Text>
 				</TouchableOpacity>
 			</View>
 			<View style={{flex: 3}}>
-				<TouchableOpacity
-					style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}
-					onPress={setCarItem}
-				>
-					<Icon
-						style={{
-							textAlign: 'center',
-							color: buttonName === 'Add' ? '#22ad29' : '#E7E35E'
-						}}
-						name={buttonName === 'Add' ? 'shopping-basket' : 'pencil-alt'}
-						size={18}
-					/>
-				</TouchableOpacity>
+				{root === 'Shop' ? (
+					<TouchableOpacity
+						style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}
+						onPress={() => unsetItem(item)}
+					>
+						<Text style={{color: 'red'}}>Quitar</Text>
+					</TouchableOpacity>
+				) : (
+					<TouchableOpacity
+						style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}
+						onPress={setCarItem}
+					>
+						<Icon
+							style={{
+								textAlign: 'center',
+								color: buttonName === 'Add' ? '#22ad29' : '#E7E35E'
+							}}
+							name={buttonName === 'Add' ? 'shopping-basket' : 'pencil-alt'}
+							size={18}
+						/>
+					</TouchableOpacity>
+				)}
 			</View>
 			<ModalComponent
 				isVisible={isVisible}

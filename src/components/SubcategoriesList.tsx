@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import {View, Text} from 'react-native';
 import {ShopContext} from '../context/shop/ShopContext';
 import {Subcategory} from '../interfaces/Subcategory.interface';
+import {HeaderTable} from './HeaderTable';
 import {SingleSubcategory} from './SingleSubcategory';
 
 interface Props {
@@ -19,7 +20,7 @@ export const SubcategoriesList = ({subcategories}: Props) => {
 				marginBottom: 70
 			}}
 		>
-			<View style={{flexDirection: 'row', marginBottom: 5}}>
+			{/* <View style={{flexDirection: 'row', marginBottom: 5}}>
 				<View style={{flex: 4}}>
 					<Text style={{textAlign: 'left'}}>Elemento</Text>
 				</View>
@@ -32,15 +33,10 @@ export const SubcategoriesList = ({subcategories}: Props) => {
 				<View style={{flex: 2}}>
 					<Text style={{textAlign: 'center'}}>Añadir</Text>
 				</View>
-			</View>
-
+			</View> */}
+			<HeaderTable editHeader={'Añadir'} />
 			{subcategories.map((item, index) => (
-				<SingleSubcategory
-					key={index.toString()}
-					item={item}
-					setItem={setItem}
-					car={car}
-				/>
+				<SingleSubcategory key={index.toString()} item={item} root={'Subca'} />
 			))}
 		</View>
 	);

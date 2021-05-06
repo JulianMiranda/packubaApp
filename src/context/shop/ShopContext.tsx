@@ -5,16 +5,20 @@ import {Subcategory} from '../../interfaces/Subcategory.interface';
 import {CarItemProps, MyShopResponse} from '../../interfaces/Shop.Interface';
 import api from '../../api/api';
 import {AuthContext} from '../auth/AuthContext';
+import {User} from '../../interfaces/User.interface';
 
 type ShopContextProps = {
 	car: CarItemProps[];
+	message: string;
 	setItem: (item: CarItemProps) => void;
 	unsetItem: (item: Subcategory) => void;
 	emptyCar: () => void;
+	removeAlert: () => void;
 	makeShop: (total: number) => void;
 };
 const shopInicialState: ShopState = {
-	car: []
+	car: [],
+	message: ''
 };
 
 export const ShopContext = createContext({} as ShopContextProps);
@@ -52,8 +56,6 @@ export const ShopProvider = ({children}: any) => {
 		const newState = state.car.filter(
 			(carItem) => carItem.subcategory.id !== item.id
 		);
-		console.log('Quito', [...newState, item]);
-
 		api.post('/shop/setMyShop', {user: user!.id, car: [...newState]});
 		dispatch({type: 'unset_item', payload: item});
 	};
@@ -64,14 +66,25 @@ export const ShopProvider = ({children}: any) => {
 	};
 
 	const makeShop = async (total: number) => {
-		const a = await api.post('/orders/setOrder', {
-			user: user!.id,
-			cost: total,
-			car: state.car
-		});
-		if (a.status === 201) dispatch({type: 'empty_car'});
+		const authorized = await api.get<User>(`/users/getOne/${user?.id}`);
+		if (authorized.data.authorized) {
+			const a = await api.post('/orders/setOrder', {
+				user: user!.id,
+				cost: total,
+				car: state.car
+			});
+			if (a.status === 201) dispatch({type: 'empty_car'});
+		} else {
+			dispatch({
+				type: 'show_alert',
+				payload:
+					'Es necesario contactar con el proveedor para costatar los detalles del envío'
+			});
+		}
 	};
-
+	const removeAlert = () => {
+		dispatch({type: 'remove_alert'});
+	};
 	return (
 		<ShopContext.Provider
 			value={{
@@ -79,7 +92,8 @@ export const ShopProvider = ({children}: any) => {
 				setItem,
 				unsetItem,
 				emptyCar,
-				makeShop
+				makeShop,
+				removeAlert
 			}}
 		>
 			{children}

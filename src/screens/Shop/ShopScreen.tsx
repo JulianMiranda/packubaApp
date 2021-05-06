@@ -5,9 +5,13 @@ import {
 	Text,
 	ScrollView,
 	TouchableOpacity,
-	Platform
+	Platform,
+	Alert,
+	Linking
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {HeaderTable} from '../../components/HeaderTable';
+import {SingleSubcategory} from '../../components/SingleSubcategory';
 import {ShopContext} from '../../context/shop/ShopContext';
 import {ThemeContext} from '../../context/theme/ThemeContext';
 import {CarItemProps} from '../../interfaces/Shop.Interface';
@@ -24,7 +28,9 @@ export const ShopScreen = () => {
 	const color = colors.primary;
 	const {top} = useSafeAreaInsets();
 
-	const {car, unsetItem, emptyCar, makeShop} = useContext(ShopContext);
+	const {car, message, unsetItem, emptyCar, makeShop, removeAlert} = useContext(
+		ShopContext
+	);
 	const [total, setTotal] = useState(0);
 
 	useEffect(() => {
@@ -39,6 +45,26 @@ export const ShopScreen = () => {
 	const makeShopFunction = () => {
 		makeShop(total);
 	};
+	useEffect(() => {
+		if (message.length === 0) return;
+
+		Alert.alert('Paso obligatorio', message, [
+			{
+				text: 'Cancel',
+				onPress: removeAlert,
+				style: 'destructive'
+			},
+			{
+				text: 'Ok',
+				onPress: () => {
+					removeAlert();
+					Linking.openURL(
+						'http://api.whatsapp.com/send?text=Este es un mensaje predetermidado&phone=+593995687985'
+					);
+				}
+			}
+		]);
+	}, [message]);
 
 	return (
 		<>
@@ -56,7 +82,7 @@ export const ShopScreen = () => {
 							top: top + 50
 						}}
 					>
-						Mis Compras
+						Mi Compra
 					</Text>
 				</View>
 
@@ -69,33 +95,45 @@ export const ShopScreen = () => {
 						fontWeight: '600'
 					}}
 				>
-					Cosas carrito
+					Productos
 				</Text>
-				{car.map((item, index) => (
+				<View style={{marginLeft: 7}}>
+					<View>
+						<HeaderTable editHeader={'Quitar'} />
+					</View>
+					{car.map((item, index) => (
+						<SingleSubcategory
+							key={index.toString()}
+							item={item.subcategory}
+							root={'Shop'}
+						/>
+					))}
+					{/* {car.map((item, index) => (
 					<Item key={index.toString()} item={item} unsetItem={unsetItem} />
-				))}
-				{car.length < 1 && (
+				))} */}
+					{car.length < 1 && (
+						<Text
+							style={{
+								marginTop: 30,
+								marginLeft: 10,
+								fontSize: 22,
+								fontWeight: '400'
+							}}
+						>
+							Carrito vacío 😦
+						</Text>
+					)}
 					<Text
 						style={{
 							marginTop: 30,
 							marginLeft: 10,
-							fontSize: 22,
-							fontWeight: '400'
+							fontSize: 26,
+							fontWeight: '600'
 						}}
 					>
-						Carrito vacío 😦
+						Total: {total}$
 					</Text>
-				)}
-				<Text
-					style={{
-						marginTop: 30,
-						marginLeft: 10,
-						fontSize: 26,
-						fontWeight: '600'
-					}}
-				>
-					Total: {total}$
-				</Text>
+				</View>
 			</ScrollView>
 			<View
 				style={{

@@ -12,7 +12,9 @@ export interface RegisterData {
 export interface User {
 	role: string;
 	name: string;
-	email: string;
+	email?: string;
+	phone?: string;
+	authorized?: boolean;
 	id: string;
 	theme: string;
 	image: Image;
