@@ -14,12 +14,6 @@ import {HeaderTable} from '../../components/HeaderTable';
 import {SingleSubcategory} from '../../components/SingleSubcategory';
 import {ShopContext} from '../../context/shop/ShopContext';
 import {ThemeContext} from '../../context/theme/ThemeContext';
-import {CarItemProps} from '../../interfaces/Shop.Interface';
-
-interface FunctionProps {
-	item: CarItemProps;
-	unsetItem: (item: any) => void;
-}
 
 export const ShopScreen = () => {
 	const {
@@ -28,13 +22,13 @@ export const ShopScreen = () => {
 	const color = colors.primary;
 	const {top} = useSafeAreaInsets();
 
-	const {car, message, unsetItem, emptyCar, makeShop, removeAlert} = useContext(
+	const {car, message, emptyCar, makeShop, removeAlert} = useContext(
 		ShopContext
 	);
-	const [total, setTotal] = useState(0);
+	const [total, setTotal] = useState(17.6);
 
 	useEffect(() => {
-		let total = 0;
+		let total = 17.6;
 		car.forEach(function (item) {
 			const valor = item.cantidad * item.subcategory.price;
 			total += valor;
@@ -87,16 +81,7 @@ export const ShopScreen = () => {
 				</View>
 
 				{/* Detalles y Loading */}
-				<Text
-					style={{
-						marginTop: 30,
-						marginLeft: 10,
-						fontSize: 26,
-						fontWeight: '600'
-					}}
-				>
-					Productos
-				</Text>
+				<Text style={styles.tableTitle}>Productos</Text>
 				<View style={{marginLeft: 7}}>
 					<View>
 						<HeaderTable editHeader={'Quitar'} />
@@ -108,10 +93,8 @@ export const ShopScreen = () => {
 							root={'Shop'}
 						/>
 					))}
-					{/* {car.map((item, index) => (
-					<Item key={index.toString()} item={item} unsetItem={unsetItem} />
-				))} */}
-					{car.length < 1 && (
+
+					{car.length < 1 ? (
 						<Text
 							style={{
 								marginTop: 30,
@@ -122,51 +105,51 @@ export const ShopScreen = () => {
 						>
 							Carrito vacío 😦
 						</Text>
+					) : (
+						<>
+							<Text
+								style={{
+									marginTop: 50,
+									marginLeft: 10,
+									fontSize: 22,
+									fontWeight: '400'
+								}}
+							>
+								Costo de envío: 17.60$
+							</Text>
+							<View style={{flexDirection: 'row'}}>
+								<Text
+									style={{
+										marginTop: 30,
+										marginLeft: 10,
+										fontSize: 26,
+										fontWeight: '400'
+									}}
+								>
+									Valor a total:
+								</Text>
+								<Text
+									style={{
+										marginTop: 30,
+										marginLeft: 10,
+										fontSize: 26,
+										fontWeight: '600',
+										textDecorationLine: 'underline'
+									}}
+								>
+									{total}$
+								</Text>
+							</View>
+						</>
 					)}
-					<Text
-						style={{
-							marginTop: 30,
-							marginLeft: 10,
-							fontSize: 26,
-							fontWeight: '600'
-						}}
-					>
-						Total: {total}$
-					</Text>
 				</View>
 			</ScrollView>
-			<View
-				style={{
-					position: 'absolute',
-					bottom: 75,
-					zIndex: 99999,
-					left: 50,
-					alignContent: 'space-between',
-					flexDirection: 'row',
-					alignItems: 'center',
-					backgroundColor: '#D5D5D5',
-					padding: 10,
-					borderRadius: 60
-				}}
-			>
+			<View style={styles.emptyButton}>
 				<TouchableOpacity onPress={() => emptyCar()}>
-					<Text style={{color: 'red'}}>Vaciar Carrito</Text>
+					<Text style={{color: colors.primary}}>Vaciar Carrito</Text>
 				</TouchableOpacity>
 			</View>
-			<View
-				style={{
-					position: 'absolute',
-					zIndex: 99999,
-					bottom: 75,
-					right: 50,
-					alignContent: 'space-between',
-					flexDirection: 'row',
-					alignItems: 'center',
-					backgroundColor: '#FB8046',
-					padding: 10,
-					borderRadius: 60
-				}}
-			>
+			<View style={{...styles.shopButton, backgroundColor: colors.primary}}>
 				<TouchableOpacity
 					activeOpacity={car.length < 1 ? 1 : 0.8}
 					onPress={car.length < 1 ? () => {} : makeShopFunction}
@@ -175,30 +158,6 @@ export const ShopScreen = () => {
 				</TouchableOpacity>
 			</View>
 		</>
-	);
-};
-
-const Item = ({item, unsetItem}: FunctionProps) => {
-	return (
-		<View style={styles.itemContainer}>
-			<View style={{flex: 2}}>
-				<Text style={styles.name}>{item.cantidad}</Text>
-			</View>
-			<View style={{flex: 6}}>
-				<Text style={{...styles.name}}>{item.subcategory.name}</Text>
-			</View>
-
-			<View style={{flex: 8}}>
-				<Text style={styles.name}>
-					{item.subcategory.price * item.cantidad} $
-				</Text>
-			</View>
-			<View style={{flex: 2}}>
-				<TouchableOpacity onPress={() => unsetItem(item.subcategory)}>
-					<Text style={{color: 'red'}}>Quitar</Text>
-				</TouchableOpacity>
-			</View>
-		</View>
 	);
 };
 
@@ -227,5 +186,34 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		fontWeight: '300',
 		marginVertical: 3
+	},
+	shopButton: {
+		position: 'absolute',
+		zIndex: 99999,
+		bottom: 75,
+		right: 50,
+		alignContent: 'space-between',
+		flexDirection: 'row',
+		alignItems: 'center',
+		padding: 10,
+		borderRadius: 60
+	},
+	emptyButton: {
+		position: 'absolute',
+		bottom: 75,
+		zIndex: 99999,
+		left: 50,
+		alignContent: 'space-between',
+		flexDirection: 'row',
+		alignItems: 'center',
+		backgroundColor: '#eeebeb',
+		padding: 10,
+		borderRadius: 60
+	},
+	tableTitle: {
+		marginTop: 30,
+		marginLeft: 10,
+		fontSize: 26,
+		fontWeight: '600'
 	}
 });
