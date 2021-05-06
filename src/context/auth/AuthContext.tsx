@@ -98,7 +98,6 @@ export const AuthProvider = ({children}: any) => {
 	const signInPhone = () => {
 		try {
 			dispatch({type: 'initCheck'});
-
 			checkToken(true);
 		} catch (error) {
 			console.log('catch', error);
