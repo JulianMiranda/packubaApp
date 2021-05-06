@@ -1,3 +1,5 @@
+import {Image} from './Image.interface';
+
 export interface LoginData {
 	email: string;
 	password: string;
@@ -18,8 +20,4 @@ export interface User {
 	id: string;
 	theme: string;
 	image: Image;
-}
-export interface Image {
-	url: string;
-	id: string;
 }

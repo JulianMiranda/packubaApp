@@ -19,8 +19,3 @@ export interface Category {
 	name: string;
 	id: string;
 }
-
-export interface Image {
-	url: string;
-	id: string;
-}

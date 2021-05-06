@@ -212,6 +212,7 @@ const styles = StyleSheet.create({
 	},
 	tableTitle: {
 		marginTop: 30,
+		marginBottom: 15,
 		marginLeft: 10,
 		fontSize: 26,
 		fontWeight: '600'

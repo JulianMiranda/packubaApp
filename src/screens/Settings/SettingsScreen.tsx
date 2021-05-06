@@ -63,6 +63,25 @@ export const SettingsScreen = ({navigation}: Props) => {
 			</TouchableOpacity>
 
 			<TouchableOpacity
+				onPress={() => navigation.navigate('OrdersScreen')}
+				style={{
+					backgroundColor: '#f0f0f0',
+					marginTop: 15,
+					/* marginLeft: 100, */
+					padding: 7,
+					width: '100%',
+					alignItems: 'center',
+					borderWidth: 1,
+					borderColor: '#c5b8b8' /* 
+					borderRadius: 60 */
+				}}
+			>
+				<Text style={{color: colors.text, textAlign: 'center'}}>
+					Ver historial de Compras
+				</Text>
+			</TouchableOpacity>
+
+			<TouchableOpacity
 				onPress={logOut}
 				style={{
 					backgroundColor: '#f0f0f0',
