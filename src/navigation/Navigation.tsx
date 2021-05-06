@@ -13,6 +13,7 @@ import {Loading} from '../components/Loading';
 import {EnterPhoneScreen} from '../screens/Login/EnterPhone';
 import {VerificationCodeScreen} from '../screens/Login/VerificationCode';
 import {InfoScreen} from '../screens/Login/InfoScreen';
+import {RegisterNameScreen} from '../screens/Login/RegisterNameScreen';
 
 const Stack = createStackNavigator();
 
@@ -43,6 +44,10 @@ export const Navigator = () => {
 							<Stack.Screen
 								name="VerificationCodeScreen"
 								component={VerificationCodeScreen}
+							/>
+							<Stack.Screen
+								name="RegisterNameScreen"
+								component={RegisterNameScreen}
 							/>
 							<Stack.Screen name="LoginScreen" component={LoginScreen} />
 							<Stack.Screen name="RegisterScreen" component={RegisterScreen} />

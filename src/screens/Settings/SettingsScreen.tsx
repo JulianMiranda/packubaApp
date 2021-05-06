@@ -14,6 +14,8 @@ export const SettingsScreen = ({navigation}: Props) => {
 	const {
 		theme: {colors}
 	} = useContext(ThemeContext);
+	console.log(user);
+
 	return (
 		<View>
 			{/* <InfoUser toastRef={toastRef} /> */}

@@ -28,16 +28,36 @@ import LoginIcon from '../../../components/Header/loginIcon'; */
 import {LoginContext} from '../../context/login/LoginContext';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ThemeContext} from '../../context/theme/ThemeContext';
+import {
+	CodeField,
+	Cursor,
+	useBlurOnFulfill,
+	useClearByFocusCell
+} from 'react-native-confirmation-code-field';
+import {StackScreenProps} from '@react-navigation/stack';
+import {AuthContext} from '../../context/auth/AuthContext';
 
 export const EnterPhoneScreen = () => {
+	const navigation = useNavigation();
+	const CELL_COUNT = 6;
 	const {
 		theme: {colors}
 	} = useContext(ThemeContext);
+	const {signInPhone} = useContext(AuthContext);
 	const inputRef = useRef<any>();
 	const recaptchaVerifier = useRef(null);
+	/* const codeRef = useRef<any>(); */
 	const [phoneNumber, setPhoneNumber] = useState('');
 	const [verificationId, setVerificationId] = useState('');
 	const [verificationCode, setVerificationCode] = useState('');
+	const codeRef = useBlurOnFulfill({
+		value: verificationCode,
+		cellCount: CELL_COUNT
+	});
+	const [props, getCellOnLayoutHandler] = useClearByFocusCell({
+		value: verificationCode,
+		setValue: setVerificationCode
+	});
 	const [showCode, setShowCode] = useState(false);
 	const firebaseConfig = firebase.apps.length
 		? firebase.app().options
@@ -57,6 +77,7 @@ export const EnterPhoneScreen = () => {
 	};
 	const attemptInvisibleVerification = true;
 	const a = () => firebase.auth().signOut();
+	console.log(verificationCode);
 
 	return (
 		<View style={{padding: 20, marginTop: 50}}>
@@ -72,7 +93,7 @@ export const EnterPhoneScreen = () => {
 						<PhoneInput
 							ref={inputRef}
 							onChangePhoneNumber={onChangePhone}
-							initialCountry={'cu'}
+							initialCountry={'ec'}
 							textProps={{
 								placeholder: '0962914922'
 							}}
@@ -107,9 +128,6 @@ export const EnterPhoneScreen = () => {
 						onPress={
 							phoneNumber
 								? async () => {
-										// The FirebaseRecaptchaVerifierModal ref implements the
-										// FirebaseAuthApplicationVerifier interface and can be
-										// passed directly to `verifyPhoneNumber`.
 										try {
 											const phoneProvider = new firebase.auth.PhoneAuthProvider();
 
@@ -141,7 +159,26 @@ export const EnterPhoneScreen = () => {
 			) : (
 				<>
 					<Text style={styles.title}>Ingresa el código enviado</Text>
-					<TextInput
+					<CodeField
+						ref={codeRef}
+						{...props}
+						value={verificationCode}
+						onChangeText={setVerificationCode}
+						cellCount={CELL_COUNT}
+						rootStyle={styles.codeFieldRoot}
+						keyboardType="number-pad"
+						textContentType="oneTimeCode"
+						renderCell={({index, symbol, isFocused}) => (
+							<Text
+								key={index}
+								style={[styles.cell, isFocused && styles.focusCell]}
+								onLayout={getCellOnLayoutHandler(index)}
+							>
+								{symbol || (isFocused ? <Cursor /> : null)}
+							</Text>
+						)}
+					/>
+					{/* <TextInput
 						style={{
 							marginVertical: 10,
 							padding: 3,
@@ -154,7 +191,7 @@ export const EnterPhoneScreen = () => {
 						placeholder="123456"
 						keyboardType="number-pad"
 						onChangeText={setVerificationCode}
-					/>
+					/> */}
 					<TouchableOpacity
 						activeOpacity={
 							verificationCode.length === 6 && verificationId ? 0.8 : 1
@@ -163,7 +200,7 @@ export const EnterPhoneScreen = () => {
 							backgroundColor:
 								verificationCode.length === 6 && verificationId
 									? colors.card
-									: '#f8f8f8',
+									: '#abcffa',
 							alignSelf: 'center',
 							borderRadius: 16,
 							marginTop: 15
@@ -182,7 +219,15 @@ export const EnterPhoneScreen = () => {
 											const {additionalUserInfo, user} = result;
 											console.log('user', user);
 											console.log('additionalUserInfo', additionalUserInfo);
+											if (user?.displayName === null) {
+												console.log('navegar name');
 
+												navigation.navigate('RegisterNameScreen');
+											} else {
+												console.log('Hacer signIn');
+
+												signInPhone();
+											}
 											showMessage({
 												text: 'Phone authentication successful 👍',
 												color: 'green'
@@ -284,5 +329,18 @@ const styles = StyleSheet.create({
 	containerAbout: {
 		flexDirection: 'row',
 		marginTop: 30
+	},
+	codeFieldRoot: {marginTop: 20},
+	cell: {
+		width: 40,
+		height: 40,
+		lineHeight: 38,
+		fontSize: 24,
+		borderWidth: 2,
+		borderColor: '#00000030',
+		textAlign: 'center'
+	},
+	focusCell: {
+		borderColor: '#000'
 	}
 });

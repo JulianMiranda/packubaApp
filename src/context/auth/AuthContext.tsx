@@ -15,9 +15,11 @@ type AuthContextProps = {
 	user: User | null;
 	errorMessage: string;
 	signUp: (registerData: RegisterData) => void;
+	signUpPhone: (name: string) => void;
 	signIn: (loginData: LoginData) => void;
 	logOut: () => void;
 	removeError: () => void;
+	signInPhone: () => void;
 };
 
 const authInicialState: AuthState = {
@@ -45,6 +47,7 @@ export const AuthProvider = ({children}: any) => {
 		// Hay token
 		try {
 			const resp = await api.get<User>('/login');
+
 			if (resp.status !== 200) {
 				return dispatch({type: 'notAuthenticated'});
 			}
@@ -92,6 +95,20 @@ export const AuthProvider = ({children}: any) => {
 		}
 	};
 
+	const signInPhone = () => {
+		try {
+			dispatch({type: 'initCheck'});
+
+			checkToken(true);
+		} catch (error) {
+			console.log('catch', error);
+			dispatch({
+				type: 'addError',
+				payload: 'Error Catch'
+			});
+		}
+	};
+
 	const signUp = async ({name, email, password}: RegisterData) => {
 		dispatch({type: 'initCheck'});
 		firebase
@@ -119,6 +136,55 @@ export const AuthProvider = ({children}: any) => {
 			);
 	};
 
+	const signUpPhone = async (name: string) => {
+		dispatch({type: 'initCheck'});
+		try {
+			await firebase
+				.auth()
+				.currentUser?.updateProfile({
+					displayName: name.trim()
+				})
+				.then(async () => {
+					let forceRefresh;
+					await firebase.auth().currentUser?.getIdToken((forceRefresh = true));
+					checkToken(true);
+				})
+				.catch(() =>
+					dispatch({
+						type: 'addError',
+						payload: 'Error al actualizar nombre'
+					})
+				);
+			/* let forceRefresh;
+			await firebase.auth().currentUser?.getIdToken((forceRefresh = true));
+			checkToken(true); */
+		} catch (error) {
+			dispatch({
+				type: 'addError',
+				payload: 'Error al actualizar nombre'
+			});
+		}
+
+		/* ?.updateProfile({displayName: name})
+					.then(async () => {
+						let forceRefresh;
+						await firebase
+							.auth()
+							.currentUser?.getIdToken((forceRefresh = true));
+						checkToken(true);
+					})
+					.catch(() =>
+						dispatch({
+							type: 'addError',
+							payload: 'Error al actualizar nombre'
+						})
+					);
+			})
+			.catch(() =>
+				dispatch({type: 'addError', payload: 'Error al crear usuario'})
+			); */
+	};
+
 	const logOut = async () => {
 		firebase.auth().signOut();
 		dispatch({type: 'logout'});
@@ -135,7 +201,9 @@ export const AuthProvider = ({children}: any) => {
 				signUp,
 				signIn,
 				logOut,
-				removeError
+				removeError,
+				signInPhone,
+				signUpPhone
 			}}
 		>
 			{children}
