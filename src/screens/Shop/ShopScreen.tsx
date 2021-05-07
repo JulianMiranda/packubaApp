@@ -10,10 +10,10 @@ import {
 	Linking
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {HeaderTable} from '../../components/HeaderTable';
 import {SingleSubcategory} from '../../components/SingleSubcategory';
 import {ShopContext} from '../../context/shop/ShopContext';
 import {ThemeContext} from '../../context/theme/ThemeContext';
+import {HeaderTable} from '../../components/HeaderTable';
 
 export const ShopScreen = () => {
 	const {
@@ -38,6 +38,24 @@ export const ShopScreen = () => {
 
 	const makeShopFunction = () => {
 		makeShop(total);
+	};
+
+	const emptyCarConfirm = () => {
+		Alert.alert(
+			'Vaciar carrito',
+			'¿Estás seguro que deseas vaciar el carrito?',
+			[
+				{
+					text: 'Cancel',
+					onPress: () => {},
+					style: 'destructive'
+				},
+				{
+					text: 'Ok',
+					onPress: () => emptyCar()
+				}
+			]
+		);
 	};
 	useEffect(() => {
 		if (message.length === 0) return;
@@ -145,7 +163,7 @@ export const ShopScreen = () => {
 				</View>
 			</ScrollView>
 			<View style={styles.emptyButton}>
-				<TouchableOpacity onPress={() => emptyCar()}>
+				<TouchableOpacity onPress={emptyCarConfirm}>
 					<Text style={{color: colors.primary}}>Vaciar Carrito</Text>
 				</TouchableOpacity>
 			</View>
