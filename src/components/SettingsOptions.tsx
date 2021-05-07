@@ -62,9 +62,16 @@ export default function SettingsOptions() {
 							{menu.title}
 						</Text>
 					</TouchableOpacity>
-					{menu.iconNameLeft === 'history' && (
-						<TouchableOpacity onPress={menu.onPress}>
-							<Icon name={menu.iconNameRight} color="#ccc" size={32} />
+					{menu.iconNameLeft !== 'power' && (
+						<TouchableOpacity
+							onPress={menu.onPress}
+							style={{alignItems: 'center', justifyContent: 'center'}}
+						>
+							<Icon
+								name={menu.iconNameRight}
+								color="#ccc"
+								size={menu.iconSizeRight}
+							/>
 						</TouchableOpacity>
 					)}
 				</View>
@@ -80,13 +87,15 @@ function generateOptions(selectedComponent: any) {
 			iconType: 'material-community',
 			iconNameLeft: 'history',
 			iconNameRight: 'chevron-right',
+			iconSizeRight: 32,
 			onPress: () => selectedComponent('historial')
 		},
 		{
 			title: 'Contáctanos vía Whatsapp',
 			iconType: 'material-community',
 			iconNameLeft: 'whatsapp',
-			iconNameRight: 'chevron-right',
+			iconNameRight: 'arrow-top-right',
+			iconSizeRight: 26,
 			onPress: () => selectedComponent('whatsapp')
 		},
 		{
@@ -94,6 +103,7 @@ function generateOptions(selectedComponent: any) {
 			iconType: 'material-community',
 			iconNameLeft: 'power',
 			iconNameRight: 'chevron-right',
+			iconSizeRight: 26,
 			onPress: () => selectedComponent('logout')
 		}
 	];

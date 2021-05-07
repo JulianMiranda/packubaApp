@@ -1,6 +1,6 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {useContext, useRef} from 'react';
-import {View, Text, TouchableOpacity, Linking} from 'react-native';
+import {View} from 'react-native';
 import Toast from 'react-native-easy-toast';
 import InfoUser from '../../components/Account/InfoUser';
 import SettingsOptions from '../../components/SettingsOptions';
@@ -20,78 +20,7 @@ export const SettingsScreen = ({navigation}: Props) => {
 		<View>
 			{/* <InfoUser toastRef={toastRef} /> */}
 			<SettingsOptions />
-			{/* <TouchableOpacity
-				onPress={() => navigation.navigate('ChangeThemeScreen')}
-				style={{
-					backgroundColor: '#f0f0f0',
-					marginTop: 15,
-					padding: 7,
-					width: '100%',
-					alignItems: 'center',
-					borderWidth: 1,
-					borderColor: '#c5b8b8'
-				}}
-			>
-				<Text style={{color: colors.text, textAlign: 'center'}}>
-					Cambiar Tema
-				</Text>
-			</TouchableOpacity> */}
 
-			{/* <TouchableOpacity
-				onPress={() =>
-					Linking.openURL(
-						'http://api.whatsapp.com/send?text=Este es un mensaje predetermidado&phone=+593995687985'
-					)
-				}
-				style={{
-					backgroundColor: '#f0f0f0',
-					marginTop: 15,
-
-					padding: 7,
-					width: '100%',
-					alignItems: 'center',
-					borderWidth: 1,
-					borderColor: '#c5b8b8'
-				}}
-			>
-				<Text style={{color: colors.text, textAlign: 'center'}}>
-					Contactar por Whatsapp
-				</Text>
-			</TouchableOpacity> */}
-
-			{/* <TouchableOpacity
-				onPress={() => navigation.navigate('OrdersScreen')}
-				style={{
-					backgroundColor: '#f0f0f0',
-					marginTop: 15,
-					padding: 7,
-					width: '100%',
-					alignItems: 'center',
-					borderWidth: 1,
-					borderColor: '#c5b8b8'
-				}}
-			>
-				<Text style={{color: colors.text, textAlign: 'center'}}>
-					Ver historial de Compras
-				</Text>
-			</TouchableOpacity> */}
-
-			{/* <TouchableOpacity
-				onPress={logOut}
-				style={{
-					backgroundColor: '#f0f0f0',
-					marginTop: 15,
-					padding: 7,
-					width: '100%',
-					alignItems: 'center',
-					borderWidth: 1,
-					borderColor: '#c5b8b8'
-				}}
-			>
-				<Text style={{color: '#fc3535', textAlign: 'center'}}>
-					Cerrar Sesión
-				</Text>
-			</TouchableOpacity> */}
 			<Toast ref={toastRef.current} position="center" opacity={0.9} />
 		</View>
 	);
