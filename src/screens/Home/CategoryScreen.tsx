@@ -21,6 +21,7 @@ import { PokemonDetails } from '../components/PokemonDetails'; */
 import {BackButton} from '../../components/BackButton';
 import {useCategory} from '../../hooks/useCategory';
 import {SubcategoriesList} from '../../components/SubcategoriesList';
+import {LinearGradient} from 'expo-linear-gradient';
 
 interface Props extends StackScreenProps<RootStackParams, 'CategoryScreen'> {}
 
@@ -46,30 +47,34 @@ export const CategoryScreen = (props: Props) => {
 			>
 				<ScrollView style={{flex: 1}}>
 					{/* Heade Containerr */}
+
 					<View
 						style={{
 							...styles.headerContainer,
-							backgroundColor: color
+							overflow: 'hidden'
 						}}
 					>
-						{/* Nombre del Pokemon */}
-						<Text
+						<LinearGradient
 							style={{
-								...styles.pokemonName,
-								top: top + 50
+								flex: 1,
+								width: '100%'
 							}}
+							//start={{x: 0.5, y: 0.0}}
+							//end={{x: 0.1, y: 0.2}}
+							//colors={['#4c669f', '#3b5998', '#192f6a']}
+							colors={[color, '#f7baba']}
 						>
-							{name + '\n'}
-						</Text>
-
-						{/* Pokebola blanca */}
-						{/*  <Image
-                    source={ require('../assets/pokebola-blanca.png') }
-                    style={ styles.pokeball }
-                /> */}
-
-						<FadeInImage uri={url} style={styles.pokemonImage} />
+							<Text
+								style={{
+									...styles.mainName,
+									top: top + 50
+								}}
+							>
+								{name + '\n'}
+							</Text>
+						</LinearGradient>
 					</View>
+					<FadeInImage uri={url} style={styles.mainImage} />
 
 					{/* Detalles y Loading */}
 
@@ -91,7 +96,7 @@ const styles = StyleSheet.create({
 		height: 370,
 		zIndex: 999,
 		alignItems: 'center',
-		borderBottomRightRadius: Platform.OS === 'ios' ? 1000 : 200,
+		borderBottomRightRadius: Platform.OS === 'ios' ? 200 : 200,
 		borderBottomLeftRadius: 0
 	},
 	backButton: {
@@ -99,24 +104,22 @@ const styles = StyleSheet.create({
 		zIndex: 999999999,
 		left: 20
 	},
-	pokemonName: {
+	mainName: {
 		color: 'white',
 		fontSize: 40,
 		alignSelf: 'flex-start',
 		left: 20
 	},
-	pokeball: {
-		width: 250,
-		height: 250,
-		bottom: -20,
-		opacity: 0.7
-	},
-	pokemonImage: {
+
+	mainImage: {
 		borderRadius: 90,
 		width: 250,
 		height: 250,
 		position: 'absolute',
-		bottom: -15
+		top: 70 /* 
+		bottom: 105, */,
+		zIndex: 99999999,
+		right: 50
 	},
 	loadingIndicator: {
 		flex: 1,

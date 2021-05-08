@@ -4,8 +4,17 @@ import {SettingsScreen} from '../screens/Settings/SettingsScreen';
 import {ChangeThemeScreen} from '../screens/Settings/ChangeThemeScreen';
 import {OrdersScreen} from '../screens/Settings/OrdersScreen';
 import {ThemeContext} from '../context/theme/ThemeContext';
+import {Order} from '../interfaces/Order.interface';
+import {SingleOrderScreen} from '../screens/Settings/SingleOrderScreen';
 
 const Stack = createStackNavigator();
+
+export type RootStackParams = {
+	SettingsScreen: undefined;
+	ChangeThemeScreen: undefined;
+	OrdersScreen: undefined;
+	SingleOrderScreen: {order: Order};
+};
 
 export const SettingsStack = () => {
 	const {
@@ -41,6 +50,14 @@ export const SettingsStack = () => {
 				component={OrdersScreen}
 				options={{
 					title: 'Historial',
+					headerBackTitleVisible: false
+				}}
+			/>
+			<Stack.Screen
+				name="SingleOrderScreen"
+				component={SingleOrderScreen}
+				options={{
+					title: 'Orden',
 					headerBackTitleVisible: false
 				}}
 			/>

@@ -1,13 +1,18 @@
 import React from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {
+	View,
+	Text,
+	StyleSheet,
+	ScrollView,
+	TouchableOpacity
+} from 'react-native';
 import {useOrders} from '../../hooks/useOrders';
 import {Order} from '../../interfaces/Order.interface';
 import moment from 'moment';
+import {useNavigation} from '@react-navigation/native';
 
 export const OrdersScreen = () => {
 	const {orders} = useOrders();
-	console.log(orders.length);
-
 	return (
 		<ScrollView style={{padding: 20}}>
 			<Text style={styles.title}>Historial de Compras</Text>
@@ -19,21 +24,22 @@ export const OrdersScreen = () => {
 };
 
 const OrderComponent = ({singleOrder}: any) => {
+	const navigation = useNavigation();
 	const order: Order = singleOrder;
 	return (
-		<View style={styles.card}>
+		<TouchableOpacity
+			activeOpacity={0.8}
+			onPress={() => navigation.navigate('SingleOrderScreen', {order})}
+			style={styles.card}
+		>
 			<Text style={styles.firstText}>
-				Hecho {moment(order.createdAt).fromNow()}
+				Compra realizada {moment(order.createdAt).calendar()}
 			</Text>
 			<Text style={styles.firstText}>Costo total {order.cost}$</Text>
-			<Text style={styles.firstText}>Productos Comprados:</Text>
-			{order.car.map((item, index) => (
-				<View key={index.toString()} style={styles.subcategory}>
-					<Text>- {item.cantidad}</Text>
-					<Text> {item.subcategory.name}</Text>
-				</View>
-			))}
-		</View>
+			<Text style={{...styles.firstText, marginTop: 7, color: '#2684FD'}}>
+				Ver Detalles
+			</Text>
+		</TouchableOpacity>
 	);
 };
 
