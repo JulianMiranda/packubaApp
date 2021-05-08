@@ -1,59 +1,22 @@
 import React from 'react';
-import {
-	Button,
-	Modal,
-	Image,
-	View,
-	TouchableOpacity,
-	TouchableWithoutFeedback
-} from 'react-native';
+import {Image as Imagen} from '../interfaces/Image.interface';
+import {Modal, ActivityIndicator} from 'react-native';
+import ImageViewer from 'react-native-image-zoom-viewer';
 
 interface Props {
 	isVisible: boolean;
 	setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
-	imageUri: string;
+	images: Imagen[];
 }
-export const ModalComponent = ({isVisible, setIsVisible, imageUri}: Props) => {
+export const ModalComponent = ({isVisible, setIsVisible, images}: Props) => {
 	return (
-		<Modal
-			animationType="fade"
-			visible={isVisible}
-			transparent={true}
-			onRequestClose={() => setIsVisible(false)}
-		>
-			{/* Background negro */}
-			<TouchableOpacity
-				style={{
-					flex: 1,
-					backgroundColor: 'rgba(0,0,0,0.3)',
-					justifyContent: 'center',
-					alignItems: 'center'
-				}}
-				activeOpacity={1}
-				onPressOut={() => setIsVisible(false)}
-			>
-				{/* Contenido del modal */}
-				<TouchableWithoutFeedback
-					style={{
-						width: 300,
-						height: 300,
-						justifyContent: 'center',
-						alignItems: 'center',
-						shadowOffset: {
-							width: 0,
-							height: 10
-						},
-						shadowOpacity: 0.25,
-						elevation: 10,
-						borderRadius: 10
-					}}
-				>
-					<Image
-						style={{width: 300, height: 300, borderRadius: 10}}
-						source={{uri: imageUri}}
-					/>
-				</TouchableWithoutFeedback>
-			</TouchableOpacity>
+		<Modal animationType="fade" visible={isVisible} transparent={true}>
+			<ImageViewer
+				imageUrls={images}
+				onSwipeDown={() => setIsVisible(false)}
+				enableSwipeDown
+				loadingRender={() => <ActivityIndicator />}
+			/>
 		</Modal>
 	);
 };

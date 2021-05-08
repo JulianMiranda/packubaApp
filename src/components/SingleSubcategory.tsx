@@ -49,9 +49,9 @@ export const SingleSubcategory = ({item, root}: Props) => {
 	return (
 		<View style={styles.itemContainer}>
 			<TouchableOpacity activeOpacity={0.8} onPress={() => setIsVisible(true)}>
-				<FadeInImage uri={item.image.url} style={styles.image} />
+				<FadeInImage uri={item.images[0].url} style={styles.image} />
 			</TouchableOpacity>
-			{/* <Image source={{uri: item.image.url}} style={styles.image} /> */}
+
 			<View style={{flex: 6}}>
 				<Text style={styles.name}>{item.name}</Text>
 			</View>
@@ -133,7 +133,7 @@ export const SingleSubcategory = ({item, root}: Props) => {
 			<ModalComponent
 				isVisible={isVisible}
 				setIsVisible={setIsVisible}
-				imageUri={item.image.url}
+				images={item.images}
 			/>
 		</View>
 	);

@@ -21,7 +21,7 @@ export const useCategory = (id: string) => {
 					}
 				},
 				{
-					path: 'image',
+					path: 'images',
 					filter: {status: true},
 					fields: {
 						url: true
