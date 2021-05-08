@@ -58,7 +58,7 @@ export const TabsNavigation = () => {
 				inactiveTintColor: 'gray',
 				style: styles.navigator,
 				labelStyle: {
-					marginBottom: Platform.OS === 'ios' ? 5 : 5
+					marginBottom: Platform.OS === 'ios' ? -5 : -5
 				},
 				tabStyle: {
 					backgroundColor: 'rgba(255,255,255,0.92)'
@@ -70,7 +70,7 @@ export const TabsNavigation = () => {
 				name="home"
 				component={HomeStack}
 				options={{
-					title: 'Tienda',
+					title: '',
 					tabBarIcon: ({color}) => <Icon name="store" size={22} color={color} />
 				}}
 			/>
@@ -88,10 +88,8 @@ export const TabsNavigation = () => {
 				name="settings"
 				component={SettingsStack}
 				options={{
-					title: 'Contáctanos',
-					tabBarIcon: ({color}) => (
-						<Icon name="phone-square-alt" size={24} color={color} />
-					)
+					title: '',
+					tabBarIcon: ({color}) => <Icon name="bars" size={24} color={color} />
 				}}
 			/>
 		</Tab.Navigator>

@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
 		height: 370,
 		zIndex: 999,
 		alignItems: 'center',
-		borderBottomRightRadius: Platform.OS === 'ios' ? 200 : 200,
+		borderBottomRightRadius: Platform.OS === 'ios' ? 200 : 150,
 		borderBottomLeftRadius: 0
 	},
 	backButton: {

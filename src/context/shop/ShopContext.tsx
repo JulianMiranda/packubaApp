@@ -78,7 +78,7 @@ export const ShopProvider = ({children}: any) => {
 			dispatch({
 				type: 'show_alert',
 				payload:
-					'Es necesario contactar con el proveedor para costatar los detalles del envío'
+					'Es necesario contactar con el proveedor para constatar los detalles del envío'
 			});
 		}
 	};

@@ -7,8 +7,6 @@ import {TabsNavigation} from './TabsNavigation';
 import {AuthContext} from '../context/auth/AuthContext';
 import {ThemeContext} from '../context/theme/ThemeContext';
 
-import {LoginScreen} from '../screens/Login/LoginScreen';
-import {RegisterScreen} from '../screens/Login/RegisterScreen';
 import {Loading} from '../components/Loading';
 import {EnterPhoneScreen} from '../screens/Login/EnterPhone';
 import {VerificationCodeScreen} from '../screens/Login/VerificationCode';
@@ -49,8 +47,6 @@ export const Navigator = () => {
 								name="RegisterNameScreen"
 								component={RegisterNameScreen}
 							/>
-							<Stack.Screen name="LoginScreen" component={LoginScreen} />
-							<Stack.Screen name="RegisterScreen" component={RegisterScreen} />
 						</>
 					) : (
 						<Stack.Screen

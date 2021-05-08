@@ -29,7 +29,7 @@ export const EnterPhoneScreen = () => {
 	const {
 		theme: {colors}
 	} = useContext(ThemeContext);
-	const {signInPhone, wait, signIn, errorMessage, removeError} = useContext(
+	const {signInPhone, wait, errorMessage, removeError} = useContext(
 		AuthContext
 	);
 	const inputRef = useRef<any>();

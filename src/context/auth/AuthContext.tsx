@@ -14,12 +14,10 @@ type AuthContextProps = {
 	wait: boolean;
 	user: User | null;
 	errorMessage: string;
-	signUp: (registerData: RegisterData) => void;
 	signUpPhone: (name: string) => void;
-	signIn: (loginData: LoginData) => void;
+	signInPhone: () => void;
 	logOut: () => void;
 	removeError: () => void;
-	signInPhone: () => void;
 };
 
 const authInicialState: AuthState = {
@@ -70,31 +68,6 @@ export const AuthProvider = ({children}: any) => {
 		}
 	};
 
-	const signIn = async ({email, password}: LoginData) => {
-		try {
-			dispatch({type: 'initCheck'});
-			firebase
-				.auth()
-				.signInWithEmailAndPassword(email, password)
-				.then(() => {
-					checkToken(true);
-				})
-				.catch((err) => {
-					dispatch({
-						type: 'addError',
-						payload: 'Usuario o contraseña incorrecta'
-					});
-					console.log('err', err);
-				});
-		} catch (error) {
-			console.log('catch', error);
-			dispatch({
-				type: 'addError',
-				payload: 'Error Catch'
-			});
-		}
-	};
-
 	const signInPhone = () => {
 		try {
 			dispatch({type: 'initCheck'});
@@ -106,33 +79,6 @@ export const AuthProvider = ({children}: any) => {
 				payload: 'Error Catch'
 			});
 		}
-	};
-
-	const signUp = async ({name, email, password}: RegisterData) => {
-		dispatch({type: 'initCheck'});
-		firebase
-			.auth()
-			.createUserWithEmailAndPassword(email, password)
-			.then(({user}) => {
-				user
-					?.updateProfile({displayName: name})
-					.then(async () => {
-						let forceRefresh;
-						await firebase
-							.auth()
-							.currentUser?.getIdToken((forceRefresh = true));
-						checkToken(true);
-					})
-					.catch(() =>
-						dispatch({
-							type: 'addError',
-							payload: 'Error al actualizar nombre'
-						})
-					);
-			})
-			.catch(() =>
-				dispatch({type: 'addError', payload: 'Error al crear usuario'})
-			);
 	};
 
 	const signUpPhone = async (name: string) => {
@@ -154,34 +100,12 @@ export const AuthProvider = ({children}: any) => {
 						payload: 'Error al actualizar nombre'
 					})
 				);
-			/* let forceRefresh;
-			await firebase.auth().currentUser?.getIdToken((forceRefresh = true));
-			checkToken(true); */
 		} catch (error) {
 			dispatch({
 				type: 'addError',
 				payload: 'Error al actualizar nombre'
 			});
 		}
-
-		/* ?.updateProfile({displayName: name})
-					.then(async () => {
-						let forceRefresh;
-						await firebase
-							.auth()
-							.currentUser?.getIdToken((forceRefresh = true));
-						checkToken(true);
-					})
-					.catch(() =>
-						dispatch({
-							type: 'addError',
-							payload: 'Error al actualizar nombre'
-						})
-					);
-			})
-			.catch(() =>
-				dispatch({type: 'addError', payload: 'Error al crear usuario'})
-			); */
 	};
 
 	const logOut = async () => {
@@ -197,8 +121,6 @@ export const AuthProvider = ({children}: any) => {
 		<AuthContext.Provider
 			value={{
 				...state,
-				signUp,
-				signIn,
 				logOut,
 				removeError,
 				signInPhone,

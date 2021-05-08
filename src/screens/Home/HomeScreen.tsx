@@ -2,11 +2,9 @@ import React, {useContext} from 'react';
 import {View, Text, Image, FlatList, Platform, Dimensions} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {CategoryCard} from '../../components/CategoryCard';
-import {PackubaName} from '../../components/PackubaName';
 import {ThemeContext} from '../../context/theme/ThemeContext';
 import {useCategoryPaginated} from '../../hooks/useCategoryPaginated';
 import {homeStyles} from '../../styles/homeTheme';
-import {ShopIcon} from '../../components/ShopIcon';
 import {StackScreenProps} from '@react-navigation/stack';
 
 interface Props extends StackScreenProps<any, any> {}
@@ -25,7 +23,6 @@ export const HomeScreen = (props: Props) => {
 				source={require('../../assets/LOGO1.png')}
 				style={homeStyles.imageBG}
 			/>
-			{/* <ShopIcon {...props} /> */}
 
 			<View
 				style={{

@@ -14,6 +14,7 @@ import {SingleSubcategory} from '../../components/SingleSubcategory';
 import {ShopContext} from '../../context/shop/ShopContext';
 import {ThemeContext} from '../../context/theme/ThemeContext';
 import {HeaderTable} from '../../components/HeaderTable';
+import {LinearGradient} from 'expo-linear-gradient';
 
 export const ShopScreen = () => {
 	const {
@@ -85,17 +86,29 @@ export const ShopScreen = () => {
 				<View
 					style={{
 						...styles.headerContainer,
-						backgroundColor: color
+						overflow: 'hidden'
+						/* 	backgroundColor: color */
 					}}
 				>
-					<Text
+					<LinearGradient
 						style={{
-							...styles.titleList,
-							top: top + 50
+							flex: 1,
+							width: '100%'
 						}}
+						//start={{x: 0.5, y: 0.0}}
+						//end={{x: 0.1, y: 0.2}}
+						//colors={['#4c669f', '#3b5998', '#192f6a']}
+						colors={[color, '#f7baba']}
 					>
-						Mi Compra
-					</Text>
+						<Text
+							style={{
+								...styles.titleList,
+								top: top + 50
+							}}
+						>
+							Mi Compra
+						</Text>
+					</LinearGradient>
 				</View>
 
 				{/* Detalles y Loading */}
@@ -192,7 +205,7 @@ const styles = StyleSheet.create({
 		color: 'white',
 		fontSize: 40,
 		alignSelf: 'flex-start',
-		left: 20
+		left: 70
 	},
 	itemContainer: {
 		flexDirection: 'row',
