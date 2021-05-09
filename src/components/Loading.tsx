@@ -1,10 +1,14 @@
 import React from 'react';
-import {ActivityIndicator, View} from 'react-native';
+import {View, Image} from 'react-native';
 
 export const Loading = () => {
 	return (
 		<View style={{flex: 1, alignContent: 'center', justifyContent: 'center'}}>
-			<ActivityIndicator />
+			<Image
+				source={require('../assets/points.gif')}
+				style={{height: 120, width: 120, alignSelf: 'center'}}
+			/>
+			{/* <ActivityIndicator /> */}
 		</View>
 	);
 };

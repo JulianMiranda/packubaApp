@@ -7,6 +7,7 @@ import {ThemeProvider} from './src/context/theme/ThemeContext';
 import {ShopProvider} from './src/context/shop/ShopContext';
 import moment from 'moment';
 import 'moment/locale/es';
+import {LoginProvider} from './src/context/login/LoginContext';
 moment.locale('es');
 
 const AppState = ({children}: any) => {
@@ -16,7 +17,9 @@ const AppState = ({children}: any) => {
 	return (
 		<AuthProvider>
 			<ThemeProvider>
-				<ShopProvider>{children}</ShopProvider>
+				<LoginProvider>
+					<ShopProvider>{children}</ShopProvider>
+				</LoginProvider>
 			</ThemeProvider>
 		</AuthProvider>
 	);

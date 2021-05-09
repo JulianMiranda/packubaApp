@@ -1,60 +1,47 @@
 import {StyleSheet} from 'react-native';
 
 export const loginStyles = StyleSheet.create({
-	formContainer: {
-		flex: 1,
-		paddingHorizontal: 30,
-		justifyContent: 'center',
-		height: 600,
-		marginBottom: 50
-	},
 	title: {
-		color: 'white',
-		fontSize: 30,
-		fontWeight: 'bold',
-		marginTop: 20
-	},
-	label: {
-		marginTop: 25,
-		color: 'white',
-		fontWeight: 'bold'
-	},
-	inputField: {
-		color: 'white',
-		fontSize: 20
-	},
-	inputFieldIOS: {
-		borderBottomColor: 'white',
-		borderBottomWidth: 2,
-		paddingBottom: 4
-	},
-	buttonContainer: {
-		alignItems: 'center',
-		marginTop: 50
-	},
-	button: {
-		borderWidth: 2,
-		borderColor: 'white',
-		paddingHorizontal: 20,
-		paddingVertical: 5,
-		borderRadius: 100
-	},
-	buttonText: {
+		color: 'black',
+		marginBottom: 30,
 		fontSize: 18,
-		color: 'white'
+		marginRight: 10,
+		textAlign: 'justify'
 	},
-	newUserContainer: {
-		alignItems: 'center',
-		marginTop: 10
+
+	input: {
+		borderBottomColor: 'black',
+		borderBottomWidth: 2,
+		backgroundColor: '#DBEBFF',
+		height: 35,
+		fontSize: 22
 	},
-	buttonReturn: {
-		position: 'absolute',
-		top: 50,
-		left: 20,
-		borderWidth: 1,
-		borderColor: 'white',
-		paddingHorizontal: 10,
-		paddingVertical: 5,
-		borderRadius: 100
-	}
+	codeFieldRoot: {marginTop: 20},
+	cell: {
+		width: 40,
+		height: 40,
+		lineHeight: 38,
+		fontSize: 24,
+		borderWidth: 2,
+		borderColor: '#00000030',
+		textAlign: 'center'
+	},
+	focusCell: {
+		borderColor: '#000'
+	},
+	flagInputText: {
+		color: 'black',
+		fontSize: 25,
+		backgroundColor: '#DBEBFF',
+		borderBottomColor: 'rgba(0,0,0,0.92)',
+		borderBottomWidth: 2,
+		height: 30,
+		marginRight: 15
+	},
+	flagStyle: {
+		width: 40,
+		height: 25,
+		borderWidth: 0
+	},
+	backButton: {position: 'absolute', zIndex: 999999999, left: 20}
 });
