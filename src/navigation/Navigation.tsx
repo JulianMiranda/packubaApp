@@ -39,10 +39,10 @@ export const Navigator = () => {
 								name="EnterPhoneScreen"
 								component={EnterPhoneScreen}
 							/>
-							<Stack.Screen
+							{/* <Stack.Screen
 								name="VerificationCodeScreen"
 								component={VerificationCodeScreen}
-							/>
+							/> */}
 							<Stack.Screen
 								name="RegisterNameScreen"
 								component={RegisterNameScreen}
